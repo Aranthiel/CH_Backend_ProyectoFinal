@@ -118,3 +118,46 @@ export const producto11 = {
 	code: 'def987',
 	stock: 36,
 };
+export const producto12 = {
+	title: 'producto prueba 12',
+	description: 'Este es otro producto prueba 12',
+	price: 175,
+	status: true,
+	category: 'TBD',
+	thumbnail: 'Sin imagen 12',
+	code: 'uvw345',
+	stock: 22,
+};
+
+export const producto13 = {
+	title: 'producto prueba 13',
+	description: 'Este es otro producto prueba 13',
+	price: 320,
+	status: true,
+	category: 'TBD',
+	thumbnail: 'Sin imagen 13',
+	code: 'xyz789',
+	stock: 9,
+};
+
+export const producto14 = {
+	title: 'producto prueba 14',
+	description: 'Este es otro producto prueba 14',
+	price: 270,
+	status: true,
+	category: 'TBD',
+	thumbnail: 'Sin imagen 14',
+	code: 'ghi123',
+	stock: 28,
+};
+
+export const producto15 = {
+	title: 'producto prueba 15',
+	description: 'Este es otro producto prueba 15',
+	price: 420,
+	status: true,
+	category: 'TBD',
+	thumbnail: 'Sin imagen 15',
+	code: 'jkl987',
+	stock: 14,
+};

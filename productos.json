@@ -1,0 +1,156 @@
+[
+  {
+    "title": "producto prueba 1",
+    "description": "Este es un producto prueba 1",
+    "price": 200,
+    "status": true,
+    "category": "TBD",
+    "thumbnail": "Sin imagen 1",
+    "code": "abc123",
+    "stock": 25,
+    "id": 1
+  },
+  {
+    "title": "producto prueba 3",
+    "description": "Este es otro producto prueba 3",
+    "price": 210,
+    "status": true,
+    "category": "TBD",
+    "thumbnail": "Sin imagen 3",
+    "code": "ghi789",
+    "stock": 30,
+    "id": 2
+  },
+  {
+    "title": "producto prueba 4",
+    "description": "Este es otro producto prueba 4",
+    "price": 250,
+    "status": true,
+    "category": "TBD",
+    "thumbnail": "Sin imagen 4",
+    "code": "jkl012",
+    "stock": 40,
+    "id": 3
+  },
+  {
+    "title": "producto prueba 5",
+    "description": "Este es otro producto prueba 5",
+    "price": 300,
+    "status": true,
+    "category": "TBD",
+    "thumbnail": "Sin imagen 5",
+    "code": "mno345",
+    "stock": 20,
+    "id": 4
+  },
+  {
+    "title": "producto prueba 6",
+    "description": "Este es otro producto prueba 6",
+    "price": 180,
+    "status": true,
+    "category": "TBD",
+    "thumbnail": "Sin imagen 6",
+    "code": "pqr678",
+    "stock": 15,
+    "id": 5
+  },
+  {
+    "title": "producto prueba 7",
+    "description": "Este es otro producto prueba 7",
+    "price": 220,
+    "status": true,
+    "category": "TBD",
+    "thumbnail": "Sin imagen 7",
+    "code": "stu901",
+    "stock": 12,
+    "id": 6
+  },
+  {
+    "title": "producto prueba 8",
+    "description": "Este es otro producto prueba 8",
+    "price": 350,
+    "status": true,
+    "category": "TBD",
+    "thumbnail": "Sin imagen 8",
+    "code": "vwx345",
+    "stock": 8,
+    "id": 7
+  },
+  {
+    "title": "producto prueba 9",
+    "description": "Este es otro producto prueba 9",
+    "price": 120,
+    "status": true,
+    "category": "TBD",
+    "thumbnail": "Sin imagen 9",
+    "code": "yzab67",
+    "stock": 23,
+    "id": 8
+  },
+  {
+    "title": "producto prueba 10",
+    "description": "Este es otro producto prueba 10",
+    "price": 280,
+    "status": true,
+    "category": "TBD",
+    "thumbnail": "Sin imagen 10",
+    "code": "def123",
+    "stock": 18,
+    "id": 9
+  },
+  {
+    "title": "producto prueba 11",
+    "description": "Este es otro producto prueba 11",
+    "price": 540,
+    "status": true,
+    "category": "TBD",
+    "thumbnail": "Sin imagen 11",
+    "code": "def987",
+    "stock": 36,
+    "id": 10
+  },
+  {
+    "title": "producto prueba 12",
+    "description": "Este es otro producto prueba 12",
+    "price": 175,
+    "status": true,
+    "category": "TBD",
+    "thumbnail": "Sin imagen 12",
+    "code": "uvw345",
+    "stock": 22,
+    "id": 11
+  },
+  {
+    "title": "producto prueba 13",
+    "description": "Este es otro producto prueba 13",
+    "price": 320,
+    "status": true,
+    "category": "TBD",
+    "thumbnail": "Sin imagen 13",
+    "code": "xyz789",
+    "stock": 9,
+    "id": 12
+  },
+  {
+    "title": "producto prueba 14",
+    "description": "Este es otro producto prueba 14",
+    "price": 270,
+    "status": true,
+    "category": "TBD",
+    "thumbnail": "Sin imagen 14",
+    "code": "ghi123",
+    "stock": 28,
+    "id": 13
+  },
+  {
+    "title": "producto prueba 15",
+    "description": "Este es otro producto prueba 15",
+    "price": 420,
+    "status": true,
+    "category": "TBD",
+    "thumbnail": "Sin imagen 15",
+    "code": "jkl987",
+    "stock": 14,
+    "id": 14
+  }
+]

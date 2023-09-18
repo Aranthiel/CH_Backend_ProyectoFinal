@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { writeDataToFile } from './utils.managers';
+import { writeDataToFile } from './utilsManagers.js';
 
 export class CartManager{
     
@@ -91,4 +91,4 @@ export class CartManager{
     };    
 }
 
-export const cartManager= new CartManager('../Carts.json');
+export const cartManager= new CartManager('carritos.json');

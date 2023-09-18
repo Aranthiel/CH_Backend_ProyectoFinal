@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { writeDataToFile } from './utils.managers';
+import { writeDataToFile } from './utilsManagers.js';
 
 export class ProductsManager{
     /*Debe crearse desde su contructor con el elemento products, el cual será un arreglo vacío */
@@ -128,5 +128,5 @@ export class ProductsManager{
     };
 };
 
-export const productsManager= new ProductsManager('../Products.json');
+export const productsManager= new ProductsManager('productos.json');
 
