@@ -84,8 +84,10 @@ export class CartManager{
                 //si un producto ya existente intenta agregarse al carrito, se debe incrementar el campo queantity de dicho producto
                 pExist.quantity += quantity;
             } else {
-                //agrega el producto al arreglo products
+                //agrega el producto y la cantidad al arreglo products
+                cart.products.push({productId , quantity})
             }
+            
         } catch (error) {
             return error
         }

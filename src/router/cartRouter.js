@@ -42,7 +42,8 @@ router.post('/', async (req, res)=>{
 //además si un producto ya existente intenta agregarse al carrito, se debe incrementar el campo queantity de dicho producto
 router.post('/:cid/product/:pid', async (req, res)=>{
     //usa el metodo updateCart de cartManager.js
-    const { cartId, productId } = req.params;
+    const { cid, pid } = req.params;
+    console.log(` en routes cartId:${cid} productId: ${pid}`);
     const { quantity } = req.body; // verifica si se envió cantidad en el body de la request, si no se envió el metodo updateCart le asigna por defecto valor = 1
     
     //quantity debe contener el numero de ejemplares de dicho producto. El producto de momento se agregará de uno en uno (quantity = 1)
@@ -51,7 +52,7 @@ router.post('/:cid/product/:pid', async (req, res)=>{
     }
 
     try {
-        const updatedCart = await cartManager.updateCart(cartId, productId, quantity);
+        const updatedCart = await cartManager.updateCart(+cid, +pid, quantity);
         res.status(200).json({ message: 'Producto agregado al carrito con éxito', updatedCart });
     } catch (error) {
         res.status(500).json({ message: error.message });
