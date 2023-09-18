@@ -86,8 +86,9 @@ export class CartManager{
             } else {
                 //agrega el producto y la cantidad al arreglo products
                 cart.products.push({productId , quantity})
+                //esto no funciona
             }
-            
+
         } catch (error) {
             return error
         }
