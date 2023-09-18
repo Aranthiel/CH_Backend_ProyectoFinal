@@ -1,13 +1,15 @@
 import {Router} from "express";
-import { productsManager } from "../managers/ProductsManager";
-import { completeProductValidator } from "../validators/validators";
+import { productsManager } from '../managers/ProductsManager.js';
+import { completeProductValidator } from "../validators/validators.js";
 const router = Router();
 
 //endpopint GET para obtener TODOS LOS PRODUCTOS
 router.get('/', async (req, res)=>{
-    const { limit } = req.query;
+    const limit = req.query.limit ? parseInt(req.query.limit) : undefined;    
+    console.log(`Tipo de limit: ${typeof limit}, Valor: ${limit}`);
+
     try {
-        const products = await productsManager.getProducts(limit);
+        const products = await productsManager.getProducts(+limit);
         if (!products.length){
             res.status(404).json({message: 'No se encontraron productos'})
         } else {
@@ -22,10 +24,13 @@ router.get('/', async (req, res)=>{
 
 //endpopint GET para obtener un PRODUCTO POR SU ID
 router.get('/:pid', async (req, res)=>{
-    const {productId}=req.params;
+    const {pid}=req.params;
+    console.log(`Tipo de productId en routes: ${typeof pid}, Valor de productId: ${pid}`);
+        
     try {        
-        const productById = await productsManager.getProductById(+productId);
+        const productById = await productsManager.getProductById(+pid);
         if (productById){
+            console.log(pid);
             res.status(200).json({message: 'Producto encontrado:', productById})
         } else {
             res.status(404).json({message: 'No se encontro el Id de producto solicitado'})
@@ -53,10 +58,10 @@ router.post('/', async (req, res)=>{
 
 //Endpoint PUT para actualizar un producto por su ID
 router.put('/:pid', async (req , res) =>{    
-    const {productId}=req.params;
+    const {pid}=req.params;
     const newValues= req.body;
     try {
-        const response = await productsManager.updateProduct(+productId, newValues)
+        const response = await productsManager.updateProduct(+pid, newValues)
         if (response) {
             res.status(200).json({ message: 'Producto actualizado con éxito', product: response});
         } else {
@@ -70,9 +75,9 @@ router.put('/:pid', async (req , res) =>{
 
 //Endpoint DELETE para eliminar un producto por su ID
 router.delete('/:pid', async (req , res) =>{
-    const {productId}=req.params;
+    const {pid}=req.params;
     try {
-        const response = await productsManager.deleteProduct(+productId)
+        const response = await productsManager.deleteProduct(+pid)
         if (response===true) {
             res.status(200).json({ message: 'Producto eliminado con éxito' });
         } else {

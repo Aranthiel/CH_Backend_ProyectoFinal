@@ -23,7 +23,9 @@ export class CartManager{
 
     //endpopint GET CARRITO POR SU ID deberá listar los productos que pertenezcan al carrito 
     async getCartById(cartId){
-        try {            
+        try {
+            console.log(`Tipo de productId en product Manager: ${typeof cartId}, Valor de productId: ${cartId}`);
+
             const carts = await this.getCarts();
             const cart = carts.find(cart => cart.id === cartId);
 
@@ -65,9 +67,8 @@ export class CartManager{
 
 
     // la ruta POST /:cid/product/:pid deberá agregar el producto al arreglo products del carrito seleccionado bajo el siguiente formato:
-    async updateCart(cartId, productId, quantity = 1){
+    async updateCart(cartId, productId, quantity){
         //products SOLO DEBE CONTENER EL ID DEL PRODUCTO
-        //quantity debe contener el numero de ejemplares de dicho producto. El producto de momento se agregará de uno en uno (quantity = 1)
         try {
             const cart = await this.getCartById(cartId);
 

@@ -1,9 +1,9 @@
 /// EXPRESS
 //const express= require('express);
 import express from 'express';
-import productsRouter from "./router/products.router";
-import cartRouter from "./router/cart.router";
-import { __dirname } from "./utils.js";
+import productsRouter from './router/productsRouter.js'
+import cartRouter from './router/cartRouter.js';
+import { __dirname } from './utils.js';
 //import {engine} from 'express-handlebars';
 
 const app = express();

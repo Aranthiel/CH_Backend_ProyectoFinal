@@ -11,11 +11,19 @@ export class ProductsManager{
     }
 
     /* Debe contar con un metodo getProducts el cual debe devolver un arreglo vacio o el arreglo con todos los productos creados hasta el momento */
-    async getProducts(){
+    async getProducts(limit){
         try {
             if (fs.existsSync(this.path)){
                 const info = await fs.promises.readFile(this.path, 'utf-8');
-                return JSON.parse(info);
+                let products = JSON.parse(info);
+
+                // Aplicar el límite si se proporciona
+                if (limit !== undefined && limit > 0) {
+                    products = products.slice(0, limit);
+                }
+
+                return products;
+                
             } else {
                 return [];
             };            
@@ -27,8 +35,12 @@ export class ProductsManager{
     /* Debe contar con un metodo getProductById el cual debe buscar en el arreglo el producto que coincida con el id */
     async getProductById(productId){
         try {
+            console.log(`Tipo de productId en product Manager: ${typeof productId}, Valor de productId: ${productId}`);
+        
             const products = await this.getProducts();
             const product = products.find(product => product.id === productId);
+            console.log(`producto en product manager: ${product}`)
+            
             if(!product){
                 //return `ERROR:NOT FOUND. El producto ${productId} NO se encuentra en el listado de productos, por favor ingrese un producto válido`;
                 console.log(`ERROR:NOT FOUND. El producto ${productId} NO se encuentra en el listado de productos, por favor ingrese un producto válido`);
