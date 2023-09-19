@@ -1,0 +1,51 @@
+GET
+http://localhost:8080/api/products --> FUNCIONA OK
+http://localhost:8080/api/products?limit=5 --> FUNCIONA OK
+http://localhost:8080/api/products/5 --> FUNCIONA OK
+
+
+POST
+http://localhost:8080/api/products --> FUNCIONA OK
+{
+  "title": "Nuevo Producto",
+  "description": "Descripción del nuevo producto",
+  "price": 99.99,
+  "status": true,
+  "category": "Electrónica",
+  "thumbnail": "imagen.jpg",
+  "code": "ABC123",
+  "stock": 10
+}
+
+
+PUT
+http://localhost:8080/api/products/4 --> FUNCIONA OK
+{
+  "title": "Producto actualizado con POST",
+  "description": "Descripción del nuevo producto con POST",
+  "price": 7500,
+  "status": false,
+  "category": "Electrónica",
+  "thumbnail": "imagen.jpg",
+  "stock": 500
+}
+
+
+DELETE 
+http://localhost:8080/api/products/7 --> FUNCIONA OK
+
+/////////////////////////////
+ cart
+
+GET
+http://localhost:8080/api/carts/3 --> FUNCIONA OK
+
+POST
+http://localhost:8080/api/carts/ --> FUNCIONA OK
+http://localhost:8080/api/carts/3/product/9 --> NO FUNCIONA 
+
+
+
+
+
+

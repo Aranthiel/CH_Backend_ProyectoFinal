@@ -98,14 +98,7 @@ export class ProductsManager{
     
             // Crear un nuevo array con el producto actualizado usando map
             const productsNew = products.map((p, index) => {
-                // comprobar si este es el producto que queremos actualizar
-                if (index === productIndex) {
-                    // Devuelve el producto actualizado
-                    return product;
-                } else {
-                    // Devuelve el producto original sin cambios
-                    return p;
-                }
+                return index === productIndex ? product:  p;
             });
     
             // Sobreescribir el archivo .json

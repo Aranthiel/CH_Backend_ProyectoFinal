@@ -43,23 +43,22 @@ export class CartManager{
     //Endpoint POST para CREAR UN NUEVO CARRITO con la siguiente estructura: 
     //id: Number 
     //products:Array de productos
-    async addCart(){
+    async addCart(productos){
         try {
             const carts = await this.getCarts();
-            const cart={};
-
-            //¿deberìa verificar que cart sea un array? 
+            let cartId;
 
             // Asignar un ID autoincremental al producto
             if (!carts.length) {
                 // Si el arreglo de productos está vacío, asigna el ID 1
-                cart.id = 1;
+                cartId= 1;
             } else {
-                cart.id = carts[carts.length-1].id+1;
+                cartId = carts[carts.length-1].id+1;
             }
 
-            carts.push({ id: cart.id, products: [] });
+            carts.push({ id: cartId, products:  productos});
             await writeDataToFile(this.path, carts);
+            return {id: cartId, products:  productos};
         } catch (error) {
             return error
         }
@@ -70,24 +69,38 @@ export class CartManager{
     async updateCart(cartId, productId, quantity){
         //products SOLO DEBE CONTENER EL ID DEL PRODUCTO
         try {
-            const cart = await this.getCartById(cartId);
+            const carts = await this.getCartById(cartId);
+            let cart = carts.find(cart => cart.id === cartId);
 
            // Si el carrito no existe
             if (!cart) {
-                // Crea el carrito utilizando addCart 
-                cart = await this.addCart({});
+                console.log(`ERROR:NOT FOUND. El carrito ${cartId} NO EXISTE, por favor ingrese un carrito válido`);
+                return null; // Devuelve null en lugar de una cadena de error
             }
 
-            //verifica si el producto a agregar ya esta en el carrito
-            const pExist = cart.products.find(product => product.id === productId);
-            if(pExist){
-                //si un producto ya existente intenta agregarse al carrito, se debe incrementar el campo queantity de dicho producto
-                pExist.quantity += quantity;
+            const cartIndex = carts.findIndex(cart => cart.id === cartId);
+
+            //burcar el producto en el carrito por su id
+            const productIndex = cart.products.findindex(product => product.id=== productId)
+
+            //verifica si el producto a agregar ya esta en el carrito            
+            if(productIndex !== -1){
+                 // Si el producto ya existe en el carrito, actualizar su cantidad
+                cart.products[productIndex].quantity += quantity;
             } else {
-                //agrega el producto y la cantidad al arreglo products
-                cart.products.push({productId , quantity})
-                //esto no funciona
+                //si el producto no existe agrega el producto y la cantidad
+                cart.products.push({id:productId , quantity})                
             }
+
+            // Actualizar el carrito en la lista de carritos
+            const newUpdateCart = carts.map((c, index) => {
+                return index === cartIndex ? cart : c;
+            });
+
+            // Escribir los datos actualizados en el archivo
+            await writeDataToFile(this.path, newUpdateCart);
+        
+            return cart;
 
         } catch (error) {
             return error

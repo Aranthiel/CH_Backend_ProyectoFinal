@@ -28,8 +28,14 @@ router.get('/:cid', async (req, res)=>{
 router.post('/', async (req, res)=>{
     //usa el metodo addCart de cartManager.js
     try {
-        const nuevoCarrito= await cartManager.addCart();
-        res.status(201).json({message: `Carrito creado con exito`});
+        const {products} = req.body;
+        if (products.length){
+            const nuevoCarrito= await cartManager.addCart(products);
+            res.status(201).json({message: `Carrito creado con exito con id: ${nuevoCarrito.id}`, nuevoCarrito})
+        } else { 
+            res.status(400).json({message:'Carrito vacìo'})
+        }
+        
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -43,6 +49,7 @@ router.post('/', async (req, res)=>{
 router.post('/:cid/product/:pid', async (req, res)=>{
     //usa el metodo updateCart de cartManager.js
     const { cid, pid } = req.params;
+
     console.log(` en routes cartId:${cid} productId: ${pid}`);
     const { quantity } = req.body; // verifica si se envió cantidad en el body de la request, si no se envió el metodo updateCart le asigna por defecto valor = 1
     
@@ -53,7 +60,11 @@ router.post('/:cid/product/:pid', async (req, res)=>{
 
     try {
         const updatedCart = await cartManager.updateCart(+cid, +pid, quantity);
-        res.status(200).json({ message: 'Producto agregado al carrito con éxito', updatedCart });
+        if(updatedCart){
+            res.status(200).json({ message: 'Producto agregado al carrito con éxito', updatedCart });
+        } else {
+            res.status(400).json({message:`No se encontro el carrito con el id ${cid}`})
+        }
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
