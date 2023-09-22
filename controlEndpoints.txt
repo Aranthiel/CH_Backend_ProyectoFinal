@@ -1,13 +1,13 @@
 GET
 http://localhost:8080/api/products --> FUNCIONA OK
-http://localhost:8080/api/products?limit=5 --> FUNCIONA OK
+http://localhost:8080/api/products?limit=7 --> FUNCIONA OK
 http://localhost:8080/api/products/5 --> FUNCIONA OK
 
 
 POST
 http://localhost:8080/api/products --> FUNCIONA OK
 {
-  "title": "Nuevo Producto",
+  "title": "Nuevo Producto 21/09",
   "description": "Descripción del nuevo producto",
   "price": 99.99,
   "status": true,
@@ -42,8 +42,29 @@ http://localhost:8080/api/carts/3 --> FUNCIONA OK
 
 POST
 http://localhost:8080/api/carts/ --> FUNCIONA OK
-http://localhost:8080/api/carts/3/product/9 --> NO FUNCIONA 
+{
+  "products": [
+    {
+      "productId": 1,
+      "quantity": 3
+    },
+    {
+      "productId": 2,
+      "quantity": 2
+    }
+  ]
+}
 
+
+http://localhost:8080/api/carts/3/product/5 --> el carrito no existe debe dar error
+{
+  "quantity": 73
+}
+
+http://localhost:8080/api/carts/11/product/5 --> el carrito no existe debe dar error
+{
+  "quantity": 73
+}
 
 
 
