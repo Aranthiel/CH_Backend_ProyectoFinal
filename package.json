@@ -3,7 +3,7 @@
     "express": "^4.18.2"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node src/server.js"
   },
   "name": "proyectofinal_nam",
   "version": "1.0.0",

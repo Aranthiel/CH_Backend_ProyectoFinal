@@ -33,14 +33,14 @@
     "id": 3
   },
   {
-    "title": "producto prueba 5",
-    "description": "Este es otro producto prueba 5",
-    "price": 300,
-    "status": true,
-    "category": "TBD",
-    "thumbnail": "Sin imagen 5",
+    "title": "Producto actualizado con POST",
+    "description": "Descripción del nuevo producto con POST",
+    "price": 7500,
+    "status": false,
+    "category": "Informática",
+    "thumbnail": "imagen.jpg",
     "code": "mno345",
-    "stock": 20,
+    "stock": 500,
     "id": 4
   },
   {
@@ -64,17 +64,6 @@
     "code": "stu901",
     "stock": 12,
     "id": 6
-  },
-  {
-    "title": "producto prueba 8",
-    "description": "Este es otro producto prueba 8",
-    "price": 350,
-    "status": true,
-    "category": "TBD",
-    "thumbnail": "Sin imagen 8",
-    "code": "vwx345",
-    "stock": 8,
-    "id": 7
   },
   {
     "title": "producto prueba 9",
@@ -152,5 +141,16 @@
     "code": "jkl987",
     "stock": 14,
     "id": 14
+  },
+  {
+    "title": "Nuevo Producto 21/09",
+    "description": "Descripción del nuevo producto",
+    "price": 99.99,
+    "status": true,
+    "category": "Electrónica",
+    "thumbnail": "imagen.jpg",
+    "code": "ABC153",
+    "stock": 10,
+    "id": 15
   }
 ]

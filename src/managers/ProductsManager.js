@@ -86,7 +86,13 @@ export class ProductsManager{
         try {
             // Buscar el producto a actualizar por su ID
             let product = await this.getProductById(productId);
+
+            if (!product) {
+                // Producto no encontrado, devuelve null
+                return null;
+            }
             
+            //actualiza el producto agregando o sobreescribiendo los nuevos valores, y sobreescribe el id para verificar que sea el mismo que se solicitó
             product = { ...product, ...newValue, id: productId};
             
             //Recuperar el arreglo de productos
@@ -101,7 +107,7 @@ export class ProductsManager{
                 return index === productIndex ? product:  p;
             });
     
-            // Sobreescribir el archivo .json
+            // Sobreescribir el archivo .json 
             await writeDataToFile(this.path, productsNew);
 
             // Retorna el producto actualizado

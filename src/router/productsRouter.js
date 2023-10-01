@@ -53,7 +53,9 @@ router.post('/', async (req, res)=>{
             res.status(500).json({ message: error.message });
             
         }
-    }    
+    } else {
+        res.status(400).json({ message: 'No se pudo agregar el producto debido a datos incorrectos o faltantes.' });
+    }   
 }); 
 
 //Endpoint PUT para actualizar un producto por su ID
@@ -62,10 +64,10 @@ router.put('/:pid', async (req , res) =>{
     const newValues= req.body;
     try {
         const response = await productsManager.updateProduct(+pid, newValues)
-        if (response) {
-            res.status(200).json({ message: 'Producto actualizado con éxito', product: response});
+        if (response === null) {
+            res.status(404).json({ message: 'No se encontró el producto con el ID proporcionado' });            
         } else {
-            res.status(404).json({ message: 'No se encontró el producto con el ID proporcionado' });
+            res.status(200).json({ message: 'Producto actualizado con éxito', product: response});
         }
     } catch (error) {
         res.status(500).json({ message: error.message });

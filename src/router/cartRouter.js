@@ -11,10 +11,10 @@ router.get('/:cid', async (req, res)=>{
     
     try {
         const cartById= await cartManager.getCartById(+cid)
-        if(cartById){
+        if(cartById !== null){
             res.status(200).json({message: 'Carrito encontrado:', cartById})
         }  else {
-            res.status(404).json({message: `No se encontro el carrito con el id ${cartId}`})
+            res.status(404).json({message: `No se encontro el carrito con el id ${+cid}`})
         }
     } catch (error) {
         res.status(500).json({ message: error.message });

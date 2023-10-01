@@ -33,7 +33,7 @@ export class CartManager{
                 console.log(`ERROR:NOT FOUND. El carrito ${cartId} NO EXISTE, por favor ingrese un carrito válido`);
                 return null; // Devuelve null en lugar de una cadena de error
             } else {
-                return cart; // devuelve un array con los productos del carrito, si esta vacio, devuelve un array vacío
+                return cart; // devuelve el carrito
             };
         } catch (error) {
             return error
