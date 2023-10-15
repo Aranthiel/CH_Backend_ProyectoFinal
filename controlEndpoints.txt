@@ -56,7 +56,7 @@ http://localhost:8080/api/carts/ --> FUNCIONA OK
 }
 
 
-http://localhost:8080/api/carts/3/product/5 --> el carrito no existe debe dar error
+http://localhost:8080/api/carts/3/product/5 --> el carrito existe, debe agregar el producto
 {
   "quantity": 73
 }
