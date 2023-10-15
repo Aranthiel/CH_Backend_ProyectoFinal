@@ -1,10 +1,10 @@
-import {Router} from "express";
-import { cartManager } from '../managers/CartManager.js';
-const router = Router();
+import { cartManager } from "../../dao/fsmanagers/CartManager.js";
+
+// este archivo no está
 
 
 //endpopint GET CARRITO POR SU ID deberá listar los productos que pertenezcan al carrito 
-router.get('/:cid', async (req, res)=>{
+async function getCartByIdC(req, res){
     //usa el metodo getCartById(cartId) de cartManager.js 
     const {cid}=req.params;
     console.log(`Tipo de productId en routes: ${typeof cid}, Valor de productId: ${cid}`);
@@ -19,13 +19,15 @@ router.get('/:cid', async (req, res)=>{
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-}); 
+}; 
+
+
 
 //Endpoint POST para CREAR UN NUEVO CARRITO con la siguiente estructura: 
 //id: Number 
 //products:Array de productos
 
-router.post('/', async (req, res)=>{
+async function addCartC(req, res){
     //usa el metodo addCart de cartManager.js
     try {
         const {products} = req.body;
@@ -39,14 +41,14 @@ router.post('/', async (req, res)=>{
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-}); 
+}; 
 
 
 // la ruta POST /:cid/product/:pid deberá agregar el producto al arreglo products del carrito seleccionado bajo el siguiente formato:
 //products SOLO DEBE CONTEBNER EL ID DEL PRODUCTO
 // quantity debe contener el numero de ejemplaresde dichjp producto. el producto de momento se agregará de uno en uno
 //además si un producto ya existente intenta agregarse al carrito, se debe incrementar el campo queantity de dicho producto
-router.post('/:cid/product/:pid', async (req, res)=>{
+async function addProductToCartC(req, res){
     //usa el metodo updateCart de cartManager.js
     const { cid, pid } = req.params;
 
@@ -69,7 +71,11 @@ router.post('/:cid/product/:pid', async (req, res)=>{
         res.status(500).json({ message: error.message });
     }
 
-}); 
+}; 
 
 
-export default router
+export {
+    getCartByIdC,
+    addCartC,
+    addProductToCartC
+    } 

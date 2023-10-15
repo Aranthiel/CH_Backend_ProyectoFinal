@@ -1,16 +1,14 @@
 {
-  "dependencies": {
-    "express": "^4.18.2"
-  },
-  "scripts": {
-    "start": "node src/server.js"
-  },
   "name": "proyectofinal_nam",
   "version": "1.0.0",
   "description": "API REST - servidor que contiene los enpoints y servicios necesarios para gestionar los productos y carritos de compras de un e-commerce",
-  "type":"module",
+  "type": "module",
   "main": "server.js",
-  "devDependencies": {},
+  "scripts": {
+    "start": "node src/server.js",
+    "run": "nodemon src/server.js",
+    "test": "nodemon server.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Aranthiel/CH_Nackend_ProyectoFinal.git"
@@ -20,5 +18,17 @@
   "bugs": {
     "url": "https://github.com/Aranthiel/CH_Nackend_ProyectoFinal/issues"
   },
-  "homepage": "https://github.com/Aranthiel/CH_Nackend_ProyectoFinal#readme"
+  "homepage": "https://github.com/Aranthiel/CH_Nackend_ProyectoFinal#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-handlebars": "^7.1.2",
+    "handlebars": "^4.7.8",
+    "mongoose": "^7.6.2",
+    "socket.io": "^4.7.2"
+  },
+  "engines": {
+    "node": "16.x"
+  },
+  "devDependencies": {},
+  "keywords": []
 }
