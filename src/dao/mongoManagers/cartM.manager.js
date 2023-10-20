@@ -4,7 +4,7 @@ class CartManagerMongoose{
     
     async mongooseGetAllCarts(limit){
         limit ? limit  : undefined;
-        const allCarts = await cartModel.find().limit(limit).lean();
+        const allCarts = await cartModel.find().limit(limit);
         console.log('allCarts', allCarts);
         return allCarts;
     }
@@ -21,8 +21,16 @@ class CartManagerMongoose{
     };
 
     async mongooseAddCart(obj){
-        const response = await cartModel.create(obj)
-        return response;
+        console.log('obj recibido en cartM.manager', obj);
+        try {
+            const response = await cartModel.create(obj);
+            console.log('response mongooseAddCart', response);
+            return response;
+        } catch (error) {
+            console.error('Error en mongooseAddCart:', error);
+            throw error; // O maneja el error de alguna otra forma
+        }
+        
     };
 
 

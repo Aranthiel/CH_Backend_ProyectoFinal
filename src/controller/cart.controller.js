@@ -18,8 +18,10 @@ async function getCartByIdC(req, res){
 
 
 async function addCartC(req, res) {
-    try {
+    try { 
         const { products } = req.body;
+        console.log("addCartC cartM.controller products", products);
+
         if (products && Array.isArray(products)) {
             const nuevoCarrito = await cartManagerMongoose.mongooseAddCart({ products: products });
             res.status(201).json({ message: `Carrito creado con éxito con id: ${nuevoCarrito._id}`, nuevoCarrito });
@@ -33,6 +35,7 @@ async function addCartC(req, res) {
 
 
 async function addProductToCartC(req, res) {
+    // ¿deberia usar     
     const { cid, pid } = req.params;
     const { quantity } = req.body;
     console.log(`En controller: cartId: ${cid}, productId: ${pid}, quantity: ${quantity}`);
@@ -81,21 +84,23 @@ async function getCartsC(req, res){
 };
 
 
-async function deleteCartC(cid){
-    //mongooseDeleteCart
+async function deleteCartC(req, res){
+    const { cid } = req.params;
     try {
         const response = await cartManagerMongoose.mongooseDeleteCart(cid);
         if (response) {
-            return {success: true, message: `Carrito eliminado coon exito`};
+            res.status(200).json({ success: true, message: 'Carrito eliminado con éxito', product: response });
         } else {
-            return {success: false, message: 'no se encontro el carrito con el ID proporcionado'};
-        };
-        
+            res.status(404).json({ success: false, message: 'No se encontró el carrito con el ID proporcionado' });
+        }
     } catch (error) {
-        return {success: false, message: error.message};
-    };
+        res.status(500).json({ success: false, message: error.message });
+    }
 };
 
+async function delteProductFromCartC(req, res){
+
+}
 
 
 export {
@@ -103,5 +108,6 @@ export {
     addCartC,
     addProductToCartC, 
     getCartsC,
-    deleteCartC
+    deleteCartC,
+    delteProductFromCartC
     } 

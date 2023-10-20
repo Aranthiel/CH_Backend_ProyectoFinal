@@ -1,6 +1,7 @@
 import {Schema, model} from "mongoose";
 
 //crear esquema
+const productsColletion = 'productsColletion'
 const productSchema = new Schema({
 
     title:{
@@ -30,4 +31,4 @@ const productSchema = new Schema({
 
 
 //crear modelo
-export const productModel = model('Producto', productSchema);
+export const productModel = model (productsColletion, productSchema);

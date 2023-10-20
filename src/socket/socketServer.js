@@ -152,8 +152,72 @@ socketServer.on("connection", async (socket) =>{
         }
     });
     
+     // emitir el evento "carritosIniciales"
+    try {
+        const apiUrl = buildApiUrl('carts');
+        const response = await fetch(apiUrl);
+        console.log('getCartsC response en socketserver', response)
+        if (!response.ok) {
+            throw new Error(`Error al obtener carritos: ${response.statusText}`);
+        }
+        const carritosIniciales = await response.json();
+        console.log("carritosIniciales en socket server", carritosIniciales.allCarts);
+
+        // Emite los carritos iniciales al cliente
+        if (carritosIniciales.length === 0) {
+            socket.emit("carritosIniciales", []);
+            console.log('carritos iniciales en socketserver', carritosIniciales);
     
+        } else {
+            socket.emit("carritosIniciales", carritosIniciales.allCarts);
+            console.log('carritos iniciales en socketserver', carritosIniciales);
     
+        }        
+        } catch (error) {
+        console.error("Error al obtener carritos iniciales:", error);
+    }
+
+    // Agregar un listener para el evento "crearCarrito"
+    socket.on("crearCarrito", async (cartData) => {
+        console.log('Evento "crearCarrito" recibido en el servidor con los siguientes datos:', cartData);
+    
+        try {
+            // Transforma el array en un objeto con la propiedad "products"
+            const requestBody = { products: cartData };
+    
+            const apiUrl = buildApiUrl('carts');
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody), // Debes usar JSON.stringify aquí
+            });
+            console.log('addCartC response en socketserver', response);
+    
+            if (response.ok) {
+                // Después de agregar con éxito, obtén la lista actualizada de productos
+                const updatedResponse = await fetch(apiUrl);
+                console.log('getCartsC updatedResponse en socketserver', updatedResponse)
+                if (!updatedResponse.ok) {
+                    throw new Error(`Error al obtener carritos: ${response.statusText}`);
+                }
+                const carritosActualizados = await updatedResponse.json();
+                console.log("carritosActualizados en socket server", carritosActualizados.allCarts);
+
+                // Emite los carritos actualizados  al cliente
+                    if (carritosActualizados.length === 0) {
+                        socket.emit("carritosActualizados", []);
+                        console.log('carritos actualizados en socketserver', carritosIniciales);
+                
+                    } else {
+                        socket.emit("carritosActualizados", carritosActualizados.allCarts);
+                        console.log('carritos actualizados en socketserver', carritosActualizados);                
+                    } }
+        } catch (error) {
+            console.error("Error al obtener carritos iniciales:", error);
+        }
+    });
 
     socket.on("disconnect", () =>{
         console.log(`cliente desconectado ${socket.id}`)

@@ -4,7 +4,8 @@ import {
     addCartC,
     addProductToCartC,
     getCartsC,
-    deleteCartC
+    deleteCartC,
+    delteProductFromCartC
 } from '../controller/cart.controller.js'
 
 //este archivo no está en uso 
@@ -20,10 +21,13 @@ cartsRouter.get('/:cid', getCartByIdC)
 //endpopint POST para CREAR un carrito
 cartsRouter.post('/', addCartC)
 
-//Endpoint POST para APGREGAR PRODUCTO a un carrito existente
+//Endpoint POST para AGREGAR PRODUCTO a un carrito existente
 cartsRouter.post('/:cid/product/:pid', addProductToCartC)
 
 //Endpoint DELETE para ELIMINAR un carrito existente
 cartsRouter.delete('/:cid/product/:pid', deleteCartC)
+
+//Endpoint DELETE para ELIMINAR PRODUCTO a un carrito existente
+cartsRouter.delete('/:cid/product/:pid', delteProductFromCartC)
 
 export default cartsRouter
