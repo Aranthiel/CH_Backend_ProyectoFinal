@@ -60,13 +60,48 @@ async function addProductToCartC(req, res) {
     }
 }
 
+async function getCartsC(req, res){
+    const limit = req.query.limit ? req.query.limit : undefined;  
+    //mongooseGetAllCarts
+    try {
+        const allCarts = await cartManagerMongoose.mongooseGetAllCarts(limit);
+        console.log("controller allCarts" ,allCarts);
+        if (!allCarts.length) {
+            res.status(404).json({ success: false, message: 'No se encontraron carritos'});            
+            /* const error = new Error('No se encontraron carritos');
+            error.statusCode = 404;
+            throw error; */
+        } else{
+            res.status(200).json({success: true, message: 'Carritos encontrados ', allCarts});            
+            return allCarts;
+        };
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    };
+};
 
 
+async function deleteCartC(cid){
+    //mongooseDeleteCart
+    try {
+        const response = await cartManagerMongoose.mongooseDeleteCart(cid);
+        if (response) {
+            return {success: true, message: `Carrito eliminado coon exito`};
+        } else {
+            return {success: false, message: 'no se encontro el carrito con el ID proporcionado'};
+        };
+        
+    } catch (error) {
+        return {success: false, message: error.message};
+    };
+};
 
 
 
 export {
     getCartByIdC,
     addCartC,
-    addProductToCartC
+    addProductToCartC, 
+    getCartsC,
+    deleteCartC
     } 

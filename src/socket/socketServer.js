@@ -19,11 +19,24 @@ export function initializeSocket(server) {
 socketServer.on("connection", async (socket) =>{
     console.log (`se ha conectado el cliente ${socket.id}`);
 
+    function buildApiUrl(path) {
+        const baseUrl = process.env.API_BASE_URL || 'http://localhost:8080'; // Establece la URL base predeterminada
+        return `${baseUrl}/api/${path}`;
+    }
+
     //productos iniciales
+
     try {
-        const productosIniciales = await getAllProductsC();
-        console.log('productosIniciales en socketserver', productosIniciales)
-        socket.emit("productosIniciales", productosIniciales);
+        const apiUrl = buildApiUrl('products');
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error(`Error al obtener productos: ${response.statusText}`);
+        }
+        const productosIniciales = await response.json();
+
+        // Emite los productos iniciales al cliente
+        socket.emit("productosIniciales", productosIniciales.products);
+        console.log('Productos iniciales en socketserver', productosIniciales.products);
     } catch (error) {
         console.error("Error al obtener productos iniciales:", error);
     }
@@ -58,40 +71,87 @@ socketServer.on("connection", async (socket) =>{
     });
     
 
-    //RealTimeProducts
-  
-    //agrega un nuevo producto usando  el controlador
+    // RealTimeProducts
+
+    // Agrega un nuevo producto usando el URL
     socket.on('addProduct', async (nProduct) => {
         console.log('Evento "addProduct" recibido en el servidor con los siguientes datos:', nProduct);
-        
-        // agrega el nuevo producto usando el controlador
-        const productoAgregado = await addProductC(nProduct);
-        console.log(productoAgregado);
-        console.log(productoAgregado.success);
 
-        if (productoAgregado.success) {
-            // Emite la lista actualizada de productos a todos los clientes
-            const productosActualizados = await getAllProductsC();
-            socketServer.emit('productsUpdated', productosActualizados);
-        } else {
-            console.log('No se pudo agregar el producto');
+        // Realiza una solicitud POST a la URL con el cuerpo nProduct
+        try {
+            const apiUrl = buildApiUrl('products');
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(nProduct),
+            });
+
+            if (response.ok) {
+                // Después de agregar con éxito, obtén la lista actualizada de productos
+                const updatedResponse = await fetch(apiUrl);
+                if (updatedResponse.ok) {
+                    const productosActualizados = await updatedResponse.json();
+                    socketServer.emit('productsUpdated', productosActualizados.products);
+                }
+            } else {
+                console.log('No se pudo agregar el producto');
+            }
+        } catch (error) {
+            console.error('Error al agregar el producto:', error);
         }
     });
 
+
+
     socket.on('borrar', async (selectedProductIds) => {
         console.log('Evento "borrar" recibido en el servidor con los siguientes datos:', selectedProductIds);
+    
         try {
+            const productosEliminadosExitosamente = [];
+            const productosNoEliminados = [];
+    
             for (const productId of selectedProductIds) {
-                const result = await deleteProductC(productId);
-                console.log(result.message);
+                const apiUrlDelete = buildApiUrl(`products/${productId}`);
+                const deleteResponse = await fetch(apiUrlDelete, {
+                    method: 'DELETE',
+                });
+    
+                if (deleteResponse.ok) {
+                    productosEliminadosExitosamente.push(productId);
+                    console.log(`Producto con ID ${productId} eliminado con éxito.`);
+                } else {
+                    productosNoEliminados.push(productId);
+                    console.error(`Error al eliminar el producto con ID ${productId}: ${deleteResponse.statusText}`);
+                }
             }
-            console.log('Todas las eliminaciones se completaron con éxito');
-            const productosActualizados = await getAllProductsC();
-            socketServer.emit('productsUpdated', productosActualizados);
+    
+            // Emitir eventos para productos eliminados con éxito y productos no eliminados
+            if (productosEliminadosExitosamente.length > 0) {
+                socketServer.emit('productsDeleted', productosEliminadosExitosamente);
+            }
+    
+            if (productosNoEliminados.length > 0) {
+                socketServer.emit('productsNotDeleted', productosNoEliminados);
+            }
+    
+            // Obtener los productos actualizados después de la eliminación
+            const apiUrlGet = buildApiUrl('products');
+            const getResponse = await fetch(apiUrlGet);
+    
+            if (getResponse.ok) {
+                const productosActualizados = await getResponse.json();
+                socketServer.emit('productsUpdated', productosActualizados.products);
+                console.log('Todas las eliminaciones se completaron con éxito');
+            } else {
+                console.error('Error al obtener productos actualizados:', getResponse.statusText);
+            }
         } catch (error) {
             console.error('Error durante la eliminación:', error);
         }
     });
+    
     
     
 

@@ -35,7 +35,6 @@ form.addEventListener("submit", (event) => {
         status,
         stock,
         category,
-        limit: 30, 
     };
    
 
@@ -83,6 +82,7 @@ socketClient.on("productosIniciales", (productosIniciales) => {
 
 socketClient.on("productsUpdated", (productosActualizados) => {
     productos = productosActualizados;
+    console.log("productosActualizados en realtimeproducts.js", productosActualizados);
     renderProducts(productos);
 });
     
@@ -115,4 +115,16 @@ deleteButton.addEventListener("click", () => {
             });
         }
     });
+});
+
+socket.on('productsDeleted', (deletedProductIds) => {
+    // Manejar productos eliminados con éxito
+    console.log('Productos eliminados con éxito:', deletedProductIds);
+    // Puedes realizar acciones en la interfaz de usuario si es necesario
+});
+
+socket.on('productsNotDeleted', (notDeletedProductIds) => {
+    // Manejar productos que no se pudieron eliminar
+    console.error('Productos que no se pudieron eliminar:', notDeletedProductIds);
+    // Puedes mostrar mensajes de error o realizar acciones adicionales si es necesario
 });

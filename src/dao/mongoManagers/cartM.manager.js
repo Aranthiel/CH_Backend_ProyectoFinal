@@ -2,9 +2,11 @@ import { cartModel } from './models/cart.model.js';
 
 class CartManagerMongoose{
     
-    async mongooseGetAllCarts(){
-        const response = await cartModel.find()
-        return response;
+    async mongooseGetAllCarts(limit){
+        limit ? limit  : undefined;
+        const allCarts = await cartModel.find().limit(limit).lean();
+        console.log('allCarts', allCarts);
+        return allCarts;
     }
 
     //obj={user:"Fulanito"}
@@ -30,8 +32,8 @@ class CartManagerMongoose{
     };
     
     async mongooseDeleteCart(cid){
-        const response = await cartModel.findByIdAndDelete(cid);
-        return response;
+        const cartToDelete = await cartModel.findByIdAndDelete(cid);
+        return cartToDelete;
     }; 
 }
 
