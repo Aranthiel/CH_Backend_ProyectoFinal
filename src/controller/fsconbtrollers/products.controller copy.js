@@ -79,7 +79,7 @@ async function updateProductC (req , res) {
 async function deleteProductC (req , res) {
     const {pid}=req.params;
     try {
-        const response = await productsManager.deleteProduct(+pid)
+        const response = await productsManager.deleteProduct(pid)
         if (response===true) {
             res.status(200).json({success: true, message: 'Producto eliminado con éxito' });
         } else {

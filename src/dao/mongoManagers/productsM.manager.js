@@ -3,11 +3,40 @@ import { productModel } from './models/products.model.js';
 
 export class ProductsManagerMongoose{   
 
-    async mongooseGetProducts(limit) {
-        limit ? limit : 15;
-        const productsList = await productModel.find().limit(limit);
+    async mongooseGetProducts(limit=10, page=1, query, sort) {
+
+        const aggregationPipeline = [];
+
+        aggregationPipeline.push({ $limit: limit });
+        aggregationPipeline.push({ $skip: (page - 1) * limit });
+
+
+        if (query) {
+            if (query.category) {
+                // Si el orden es ascendente, ordenamos por precio ascendente
+                aggregationPipeline.push({ $match: { category: query.category }});
+            } 
+            if (query.status) {
+                // Si el orden es descendente, ordenamos por precio descendente
+                aggregationPipeline.push({ $match: { status: query.status } });
+            }}
+
+        // Agregar etapa de ordenamiento si se proporciona sort
+        if (sort) {
+            if (sort === 'asc') {
+                // Si el orden es ascendente, ordenamos por precio ascendente
+                aggregationPipeline.push({ $sort: { price: 1 } });
+            } else if (sort === 'desc') {
+                // Si el orden es descendente, ordenamos por precio descendente
+                aggregationPipeline.push({ $sort: { price: -1 } });
+            }
+        }
+    
+        const productsList = await productModel.aggregate(aggregationPipeline);
+    
         return productsList;
     }
+    
         
     async mongooseGetProductById(pid){
         try {
@@ -42,14 +71,14 @@ export class ProductsManagerMongoose{
 
         try {
             // Buscar el producto a actualizar por su ID
-            let product = await productModel.updateOne({ _id: pid },obj);
-
-            if (!product) {
+            let response = await productModel.updateOne({ _id: pid },obj);
+            console.log('response en manager', response);
+            if (!response) {
                 // Producto no encontrado, devuelve null
                 return null;
             }
             // Retorna el producto actualizado
-            return product;
+            return response;
     
         } catch (error) {
             return error;
@@ -57,8 +86,10 @@ export class ProductsManagerMongoose{
     };
         
     async mongooseDeleteProduct(pid){
-            const product = await productModel.findByIdAndDelete(pid);
-            return product;
+        console.log('deleteProduct pid manager', pid);
+        const product = await productModel.findByIdAndDelete(pid);
+        console.log('deleteProduct respone manager', product);
+        return product;
     };
 };
 

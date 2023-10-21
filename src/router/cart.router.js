@@ -24,10 +24,10 @@ cartsRouter.post('/', addCartC)
 //Endpoint POST para AGREGAR PRODUCTO a un carrito existente
 cartsRouter.post('/:cid/product/:pid', addProductToCartC)
 
-//Endpoint DELETE para ELIMINAR un carrito existente
-cartsRouter.delete('/:cid/product/:pid', deleteCartC)
+//Endpoint DELETE para ELIMINAR un carrito existente ///  falta desarrollar
+cartsRouter.delete('/:cid', deleteCartC)
 
-//Endpoint DELETE para ELIMINAR PRODUCTO a un carrito existente
+//Endpoint DELETE para ELIMINAR PRODUCTO a un carrito existente ///  falta desarrollar
 cartsRouter.delete('/:cid/product/:pid', delteProductFromCartC)
 
 export default cartsRouter

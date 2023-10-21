@@ -1,7 +1,7 @@
 GET
 http://localhost:8080/api/products --> FUNCIONA OK
 http://localhost:8080/api/products?limit=7 --> FUNCIONA OK
-http://localhost:8080/api/products/5 --> FUNCIONA OK
+http://localhost:8080/api/products/6532158bfe427043fdb1a320 --> FUNCIONA OK
 
 
 POST
@@ -19,54 +19,57 @@ http://localhost:8080/api/products --> FUNCIONA OK
 
 
 PUT
-http://localhost:8080/api/products/4 --> FUNCIONA OK
+http://localhost:8080/api/products/6532158bfe427043fdb1a320 --> FUNCIONA OK
 {
-  "title": "Producto actualizado con POST",
-  "description": "Descripción del nuevo producto con POST",
-  "price": 7500,
-  "status": false,
-  "category": "Electrónica",
-  "thumbnail": "imagen.jpg",
-  "stock": 500
+    "title": "producto1 MODIFICADO",
+    "status": true,
+    "category": "productos MODIFICADOS",
 }
 
 
 DELETE 
-http://localhost:8080/api/products/7 --> FUNCIONA OK
+http://localhost:8080/api/products/65321701fe427043fdb1a33e --> FUNCIONA OK
 
-/////////////////////////////
- cart
 
-GET
-http://localhost:8080/api/carts/3 --> FUNCIONA OK
+
+////////////// CARTS ///////////////
+
+GET 
+http://localhost:8080/api/carts/ --> FUNCIONA OK 
+http://localhost:8080/api/carts/65325837afab2af69a1c120c --> FUNCIONA OK
 
 POST
 http://localhost:8080/api/carts/ --> FUNCIONA OK
 {
   "products": [
     {
-      "productId": 1,
+      "productoId": "653215d0fe427043fdb1a326",
       "quantity": 3
     },
     {
-      "productId": 2,
+      "productoId": "65321612fe427043fdb1a32c",
       "quantity": 2
     }
   ]
 }
 
 
-http://localhost:8080/api/carts/3/product/5 --> el carrito existe, debe agregar el producto
+http://localhost:8080/api/carts/6533636bfd22ae19b4152ff9/product/65321701fe427043fdb1a33e --> FUNCIONA OK
 {
   "quantity": 73
 }
 
-http://localhost:8080/api/carts/11/product/5 --> el carrito no existe debe dar error
+http://localhost:8080/api/carts/once/product/5 --> el carrito no existe debe dar error
 {
   "quantity": 73
 }
 
 
+PUT  (a desarrollar)
+http://localhost:8080/api/carts/6533636bfd22ae19b4152ff9/product/65321701fe427043fdb1a33e 
 
+DELETE (a desarrollar)
+http://localhost:8080/api/carts/65325206238249eedf50bf54 
+http://localhost:8080/api/carts/6533636bfd22ae19b4152ff9/product/65321701fe427043fdb1a33e 
 
 

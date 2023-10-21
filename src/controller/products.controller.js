@@ -60,14 +60,21 @@ async function addProductC (req, res){
 //funcion intermedia entre router y manager metodo PUT para actualizar un producto por su ID
 async function updateProductC (req , res) {    
     const {pid}=req.params;
-    const newValues= req.body;
-    const updatedProduct = await productsManagerMongoose.mongooseUpdateProduct(pid, newValues);
-    return updatedProduct;
+    const obj= req.body;
+    try {
+        const updatedProduct = await productsManagerMongoose.mongooseUpdateProduct(pid, obj);
+         console.log('updatedProduct en controller', updatedProduct);
+         res.status(201).json({success: true, message: 'Producto morificado :', product: updatedProduct})
+        //return updatedProduct;        
+    } catch (error) {
+        res.status(500).json({  success: false, message: error.message });
+    }
 };
 
 //funcion intermedia entre router y manager metodo DELETE para eliminar un producto por su ID
 async function deleteProductC(req, res) {
     const { pid } = req.params;
+    console.log('pid controller deleteProductC', pid);
     try {
         const response = await productsManagerMongoose.mongooseDeleteProduct(pid);
         if (response) {
