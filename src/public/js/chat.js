@@ -25,6 +25,7 @@ Swal.fire({
 });
 
 socketClient.on('newChatUserBroadcast', (user)=>{
+    console.log('evento newChatUserBroadcast recibido en chat.js')
     console.log(`se ha unido ${user}`); 
 
     Toastify({
@@ -42,9 +43,11 @@ form.onsubmit=(e)=>{
         message : inputText.value,
     }
     socketClient.emit('newChatMessage', newChatMessage);
+    console.log('evento newChatMessage enviado desde chat.js')
 }
 
 socketClient.on("chatMessages", (messages)=>{
+    console.log('evento chatMessages recibido en chat.js')
     div.innerHTML = "";
 
     messages.forEach((message) => {

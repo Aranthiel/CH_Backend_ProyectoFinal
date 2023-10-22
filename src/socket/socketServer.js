@@ -1,14 +1,9 @@
 import { Server } from 'socket.io'; // Para gestionar las conexiones de WebSocket
-//para intereactuar con los productos
-import { getAllProductsC,
-    getProductByIdC,
-    addProductC,
-    updateProductC,
-    deleteProductC,} from '../controller/products.controller.js';
 import { chatModel } from "../dao/mongoManagers/models/chat.model.js";
 
 let socketServer;
 export function initializeSocket(server) {
+    console.log('Ejecutando initializeSocket de socketServer.js')
     socketServer = new Server(server)
 
     const names =[];
@@ -24,31 +19,61 @@ socketServer.on("connection", async (socket) =>{
         return `${baseUrl}/api/${path}`;
     }
 
-    //productos iniciales
+    
+    //PRODUCTS
 
     try {
         const apiUrl = buildApiUrl('products');
+        console.log(' productosIniciales apiUrl' , apiUrl)
         const response = await fetch(apiUrl);
         if (!response.ok) {
             throw new Error(`Error al obtener productos: ${response.statusText}`);
         }
         const productosIniciales = await response.json();
+        //console.log(productosIniciales);
 
         // Emite los productos iniciales al cliente
-        socket.emit("productosIniciales", productosIniciales.products);
-        console.log('Productos iniciales en socketserver', productosIniciales.products);
+        socket.emit("productosIniciales", productosIniciales.products, productosIniciales.info);        
+        console.log('Productos iniciales emitido desde socketserver');
+        //console.log('Productos iniciales en socketserver', productosIniciales.products);
     } catch (error) {
         console.error("Error al obtener productos iniciales:", error);
     }
-    
+
+    // Agrega un listener para el evento "actualizarProductos"
+    socket.on("actualizarProductos", async (url) => {
+        console.log(`Evento "actualizarProductos" recibido en socketServer.js con la URL: ${url}`);
+
+        try {
+            // Realiza una solicitud GET a la URL proporcionada           
+            
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error(`Error al obtener productos: ${response.statusText}`);
+            }
+
+            const productosActualizados = await response.json();
+
+            // Emite los productos actualizados al cliente
+            socket.emit("productosActualizados", productosActualizados.products, productosActualizados.info );
+            //console.log("productosActualizados", productosActualizados.products, productosActualizados.info );
+            //console.log('productosActualizados emitido desde socketserver');
+        } catch (error) {
+            console.error("Error al obtener productos actualizados:", error);
+        }
+    });
+
 
 
     //chat
     socket.on("newChatUser", (user)=>{
-        socket.broadcast.emit('newChatUserBroadcast', user)
+        socket.broadcast.emit('newChatUserBroadcast', user);
+        console.log('newChatUserBroadcast emitido desde socketserver');
     });
     
     socket.on("newChatMessage", (info) => {
+        console.log('newChatMessage recibido en  socketserver');
         console.log('Mensaje recibido:', info);
         
         const newMessage = new chatModel({
@@ -56,7 +81,7 @@ socketServer.on("connection", async (socket) =>{
             message: info.message
         });
     
-        console.log('Nuevo mensaje a guardar:', newMessage);
+        //console.log('Nuevo mensaje a guardar:', newMessage);
     
         newMessage
             .save()
@@ -64,6 +89,7 @@ socketServer.on("connection", async (socket) =>{
                 console.log('Mensaje guardado con éxito. ID:', savedMessage._id);
                 messages.push(info);
                 socketServer.emit('chatMessages', messages);
+                console.log('chatMessages emitido desde socketserver');
             })
             .catch(error => {
                 console.error('Error al guardar el mensaje:', error);
@@ -73,9 +99,27 @@ socketServer.on("connection", async (socket) =>{
 
     // RealTimeProducts
 
+    //productos iniciales RT
+
+    try {
+        const apiUrl = buildApiUrl('products?limit=100');
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error(`Error al obtener productos: ${response.statusText}`);
+        }
+        const productosIniciales = await response.json();
+
+        // Emite los productos iniciales al cliente
+        socket.emit("productosInicialesRT", productosIniciales.products);        
+        console.log('Productos iniciales RT emitido desde socketserver');
+        //console.log('Productos iniciales en socketserver', productosIniciales.products);
+    } catch (error) {
+        console.error("Error al obtener productos iniciales:", error);
+    }
+
     // Agrega un nuevo producto usando el URL
     socket.on('addProduct', async (nProduct) => {
-        console.log('Evento "addProduct" recibido en el servidor con los siguientes datos:', nProduct);
+        //console.log('Evento "addProduct" recibido en el servidor con los siguientes datos:', nProduct);
 
         // Realiza una solicitud POST a la URL con el cuerpo nProduct
         try {
@@ -94,6 +138,7 @@ socketServer.on("connection", async (socket) =>{
                 if (updatedResponse.ok) {
                     const productosActualizados = await updatedResponse.json();
                     socketServer.emit('productsUpdated', productosActualizados.products);
+                    console.log('productsUpdated emitido desde socketserver');
                 }
             } else {
                 console.log('No se pudo agregar el producto');
@@ -152,25 +197,29 @@ socketServer.on("connection", async (socket) =>{
         }
     });
     
-     // emitir el evento "carritosIniciales"
+     // carritosIniciales
+    
     try {
         const apiUrl = buildApiUrl('carts');
+        console.log(apiUrl);
         const response = await fetch(apiUrl);
-        console.log('getCartsC response en socketserver', response)
-        if (!response.ok) {
+        //console.log('getCartsC response en socketserver', response)
+        if (!response) {
             throw new Error(`Error al obtener carritos: ${response.statusText}`);
         }
         const carritosIniciales = await response.json();
-        console.log("carritosIniciales en socket server", carritosIniciales.allCarts);
+        //console.log("carritosIniciales en socket server", carritosIniciales.allCarts);
 
         // Emite los carritos iniciales al cliente
         if (carritosIniciales.length === 0) {
             socket.emit("carritosIniciales", []);
-            console.log('carritos iniciales en socketserver', carritosIniciales);
+            console.log('carritosIniciales emitido desde socketserver');
+            //console.log('carritos iniciales en socketserver', carritosIniciales);
     
         } else {
             socket.emit("carritosIniciales", carritosIniciales.allCarts);
-            console.log('carritos iniciales en socketserver', carritosIniciales);
+            console.log('carritosIniciales emitido desde socketserver');
+            //console.log('carritos iniciales en socketserver', carritosIniciales);
     
         }        
         } catch (error) {
@@ -179,7 +228,7 @@ socketServer.on("connection", async (socket) =>{
 
     // Agregar un listener para el evento "crearCarrito"
     socket.on("crearCarrito", async (cartData) => {
-        console.log('Evento "crearCarrito" recibido en el servidor con los siguientes datos:', cartData);
+        console.log('Evento "crearCarrito" recibido en socketServer.js con los siguientes datos:', cartData);
     
         try {
             // Transforma el array en un objeto con la propiedad "products"
@@ -193,26 +242,28 @@ socketServer.on("connection", async (socket) =>{
                 },
                 body: JSON.stringify(requestBody), // Debes usar JSON.stringify aquí
             });
-            console.log('addCartC response en socketserver', response);
+            //console.log('addCartC response en socketserver', response);
     
             if (response.ok) {
                 // Después de agregar con éxito, obtén la lista actualizada de productos
                 const updatedResponse = await fetch(apiUrl);
-                console.log('getCartsC updatedResponse en socketserver', updatedResponse)
+                //console.log('getCartsC updatedResponse en socketserver', updatedResponse)
                 if (!updatedResponse.ok) {
                     throw new Error(`Error al obtener carritos: ${response.statusText}`);
                 }
                 const carritosActualizados = await updatedResponse.json();
-                console.log("carritosActualizados en socket server", carritosActualizados.allCarts);
+                //console.log("carritosActualizados en socket server", carritosActualizados.allCarts);
 
                 // Emite los carritos actualizados  al cliente
                     if (carritosActualizados.length === 0) {
                         socket.emit("carritosActualizados", []);
-                        console.log('carritos actualizados en socketserver', carritosIniciales);
+                        console.log('carritosActualizados emitido desde socketserver');
+                        //console.log('carritos actualizados en socketserver', carritosIniciales);
                 
                     } else {
                         socket.emit("carritosActualizados", carritosActualizados.allCarts);
-                        console.log('carritos actualizados en socketserver', carritosActualizados);                
+                        console.log('carritosActualizados emitido desde socketserver');
+                        //console.log('carritos actualizados en socketserver', carritosActualizados);                
                     } }
         } catch (error) {
             console.error("Error al obtener carritos iniciales:", error);

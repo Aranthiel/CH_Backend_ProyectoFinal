@@ -1,5 +1,18 @@
 <h3>realtimeproducts</h3>
 
+<div id="menu">
+    <ul id="menuOptions">
+        <li><a href="http://localhost:8080/products" target="_blank" rel="noopener noreferrer">Productos.view</a></li>
+        <li><a href="http://localhost:8080/carts" target="_blank" rel="noopener noreferrer">Carritos.view</a></li>
+        <li><a href="http://localhost:8080/api/products" target="_blank" rel="noopener noreferrer">Productos.JSON</a></li>
+        <li><a href="http://localhost:8080/api/products?limit=5" target="_blank" rel="noopener noreferrer">?limit=5</a></li>
+        <li><a href="http://localhost:8080/api/products?limit=5&page=2" target="_blank" rel="noopener noreferrer">?limit=5&page=2</a></li>
+        <li><a href="http://localhost:8080/api/products?limit=5&page=2&sort=desc" target="_blank" rel="noopener noreferrer">?limit=5&page=2&sort=desc</a></li>
+        <li><a href="http://localhost:8080/api/products?limit=5&page=2&sort=asc&query[status]=true&query[category]=Electrónica" target="_blank" rel="noopener noreferrer">?limit=5&page=2&sort=asc&query[status]=true&query[category]=Electrónica</a></li>
+        <li><a href="http://localhost:8080/api/products/6532158bfe427043fdb1a320" target="_blank" rel="noopener noreferrer">products/6532158bfe427043fdb1a320</a></li>
+    </ul>
+</div>
+
 <div id="container">
     <div id="productos">
         <form id="productForm">
@@ -26,7 +39,7 @@
 
         <div id="showProducts"></div>
     </div>
-    <div id="carritos"></div>
+    
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

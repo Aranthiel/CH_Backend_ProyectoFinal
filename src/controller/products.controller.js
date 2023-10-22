@@ -3,6 +3,7 @@ import { productsManagerMongoose } from '../dao/mongoManagers/productsM.manager.
 
 //funcion intermedia entre router y manager metodo GET para obtener TODOS LOS PRODUCTOS
 async function getAllProductsC(req, res) {
+    console.log('products.controller metodo getAllProductsC:')
     try {
         const response = await productsManagerMongoose.mongooseGetProducts(req.query);
         //console.log('response en GAP', response)
@@ -27,6 +28,8 @@ async function getAllProductsC(req, res) {
 
 //funcion intermedia entre router y manager metodo GET para obtener un PRODUCTO POR SU ID
 async function getProductByIdC (req, res){
+    
+    console.log('products.controller metodo getProductByIdC:')
     const {pid}=req.params;
     console.log(`Tipo de productId en routes: ${typeof pid}, Valor de productId: ${pid}`);
         
@@ -47,6 +50,7 @@ async function getProductByIdC (req, res){
 
 //funcion intermedia entre router y manager metodo POST para APGREGAR PRODUCTO
 async function addProductC (req, res){
+    console.log('products.controller metodo addProductC:')
     const nuevoProducto=req.body
     try {
         const productoAgregado = await productsManagerMongoose.mongooseAddProduct(nuevoProducto);
@@ -58,7 +62,8 @@ async function addProductC (req, res){
 }; 
 
 //funcion intermedia entre router y manager metodo PUT para actualizar un producto por su ID
-async function updateProductC (req , res) {    
+async function updateProductC (req , res) {
+    console.log('products.controller metodo updateProductC:')    
     const {pid}=req.params;
     const obj= req.body;
     try {
@@ -73,6 +78,7 @@ async function updateProductC (req , res) {
 
 //funcion intermedia entre router y manager metodo DELETE para eliminar un producto por su ID
 async function deleteProductC(req, res) {
+    console.log('products.controller metodo deleteProductC:')
     const { pid } = req.params;
     console.log('pid controller deleteProductC', pid);
     try {

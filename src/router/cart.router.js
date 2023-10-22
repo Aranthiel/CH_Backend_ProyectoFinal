@@ -4,30 +4,51 @@ import {
     addCartC,
     addProductToCartC,
     getCartsC,
+    updateCartC,
+    updateProductFromCartC,
     deleteCartC,
+    deleteAllProductsFromCartC,
     delteProductFromCartC
 } from '../controller/cart.controller.js'
 
-//este archivo no está en uso 
+//DELETE api/carts/:cid/products/:pid para eliminar del carrito el producto seleccionado
+//PUT api/cart/:cid actualiza carrito cn arreglo de productos especificado arriba
+
+//PUT api/carts/:cid/Products/:pid solo permitre actualizar la cantidad de ese producto por la pasada desde query.body
+
+//DELETE api/carts/:cid elimina los productos del carrito
 
 const cartsRouter = Router();
 
-//endpopint GET para obtener TODOS LOS carritos
-cartsRouter.get('/', getCartsC)
 
-//endpopint GET para obtener TODOS LOS PRODUCTOS de un carrito
-cartsRouter.get('/:cid', getCartByIdC)
+//GET 
+//obtener TODOS LOS carritos
+cartsRouter.get('/', getCartsC);
 
-//endpopint POST para CREAR un carrito
-cartsRouter.post('/', addCartC)
+//obtener TODOS LOS PRODUCTOS de un carrito
+cartsRouter.get('/:cid', getCartByIdC);
 
-//Endpoint POST para AGREGAR PRODUCTO a un carrito existente
-cartsRouter.post('/:cid/product/:pid', addProductToCartC)
+//POST
+// CREAR un carrito
+cartsRouter.post('/', addCartC);
 
-//Endpoint DELETE para ELIMINAR un carrito existente ///  falta desarrollar
-cartsRouter.delete('/:cid', deleteCartC)
+//AGREGAR PRODUCTO a un carrito existente
+cartsRouter.post('/:cid/product/:pid', addProductToCartC);
+
+//PUT
+//actualiza carrito cn arreglo de productos especificado arriba
+cartsRouter.put('/:cid', updateCartC);
+
+//solo permitre actualizar la cantidad de ese producto por la pasada desde query.body
+cartsRouter.put('/:cid/product/:pid', updateProductFromCartC);
+
+//Endpoint DELETE para ELIMINAR todos los productos de un carrito ¿pero no el carrito? ///  falta desarrollar
+cartsRouter.delete('/delete/:cid', deleteCartC); 
+
+//Endpoint DELETE para ELIMINAR todos los productos de un carrito ¿pero no el carrito? ///  falta desarrollar
+cartsRouter.delete('/:cid', deleteAllProductsFromCartC); 
 
 //Endpoint DELETE para ELIMINAR PRODUCTO a un carrito existente ///  falta desarrollar
-cartsRouter.delete('/:cid/product/:pid', delteProductFromCartC)
+cartsRouter.delete('/:cid/product/:pid', delteProductFromCartC);
 
 export default cartsRouter

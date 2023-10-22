@@ -1,22 +1,18 @@
+<h3>realtimeproducts</h3>
 
 <div id="menu">
     <ul id="menuOptions">
         <li class="menuLi"><a href="http://localhost:8080/" target="_blank" rel="noopener noreferrer">Chat</a></li>
         <li class="menuLi"><a href="http://localhost:8080/products" target="_blank" rel="noopener noreferrer">Productos.view</a></li>
         <li class="menuLi"><a href="http://localhost:8080/carts" target="_blank" rel="noopener noreferrer">Carritos.view</a></li>
-        </ul>
+        <li class="menuLi">| PRUEBAS CARRITOS :</li>
+        <li class="menuLi"><a href="http://localhost:8080/api/carts/cartId" target="_blank" rel="noopener noreferrer">cart/id</a></li>
 </div>
 
-<h2>CHAT CODERHOUSE</h2>
 
-<h3 id="name"></h3>
-<form id="chatForm">
-    <input type="text" name="chatMessage" id="chatMessage">
-    <input type="submit" value="Enviar">
-</form>
-<div id="showChat"></div>
+<div id="carritos"></div>
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/chat.js"></script>
+<script src="/js/carts.js"></script>

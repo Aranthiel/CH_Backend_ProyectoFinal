@@ -11,19 +11,12 @@ title.textContent = "Productos";
 const deleteButton = document.createElement("button");
 deleteButton.textContent = "Eliminar Productos";
 
-const createCartButton = document.createElement("button");
-createCartButton.textContent = "Crear Carrito";
-
-const divCarrito = document.getElementById("carritos");
-
-const deleteCartButton  = document.createElement("button");
-deleteCartButton.textContent = "Eliminar Caritos";
-
 // Inicializar productos como un arreglo vacío
 let productos = [];
-console.log('productos', productos);
+//console.log('productos', productos);
 
 form.addEventListener("submit", (event) => {
+    coonsole.log('click en boton enviar de realtimeproducts.js')
     event.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
     console.log("form submit")
 
@@ -58,6 +51,7 @@ form.addEventListener("submit", (event) => {
 
 //renderizar los productos en el DOM
 function renderProducts(productos) {
+    console.log('realtimeproducts.js ejecutando renderProducts')
     const ul = document.createElement("ul");
     
     productos.forEach((producto) => {
@@ -83,68 +77,25 @@ function renderProducts(productos) {
     divShowProducts.appendChild(createCartButton);
 }
 
-
-// Renderizar los carritos en el DOM
-function renderCarts(carritos) {
-    // Limpiar el contenido anterior del div "divCarrito"
-    divCarrito.innerHTML = "";
-
-    // Itera a través de los carritos
-    carritos.forEach((carrito) => {
-        // Crear un elemento de lista (li) para cada carrito
-        const li = document.createElement("li");
-        li.id = `cart_${carrito._id}`;
-
-        // Crear una casilla de verificación (checkbox)
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.id = `checkbox_${carrito._id}`;
-        li.appendChild(checkbox);
-
-        // Crear un elemento de span para mostrar el ID del carrito
-        const cartInfo = document.createElement("span");
-        cartInfo.textContent = `Carrito: ${carrito._id} - Productos: `;
-        li.appendChild(cartInfo);
-
-        // Crear una lista desordenada (ul) para los productos del carrito
-        const ul = document.createElement("ul");
-
-        // Itera a través de los productos del carrito
-        carrito.products.forEach((producto) => {
-            // Crear elementos de lista (li) para cada producto
-            const productLi = document.createElement("li");
-            productLi.textContent = `Producto ${producto.productoId} - Cantidad: ${producto.quantity}`;
-            ul.appendChild(productLi);
-        });
-
-        // Agregar la lista de productos al elemento li
-        li.appendChild(ul);
-
-        // Agregar el elemento li al div "divCarrito"
-        divCarrito.appendChild(li);
-    });
-
-    // Agregar el botón "Eliminar Productos" al final
-    divCarrito.appendChild(deleteCartButton);
-}
-
-
 // Escuchar el evento para recibir los productos iniciales
-socketClient.on("productosIniciales", (productosIniciales) => {
-    console.log('productosIniciales en realtimeproducts.js', productosIniciales);
+socketClient.on("productosInicialesRT", (productosIniciales) => {
+    console.log('Evento productosInicialesRT recibido en realtimeproducts.js')
+    //console.log('productosIniciales en realtimeproducts.js', productosIniciales);
     productos = productosIniciales;
     renderProducts(productos);
 });
 
 // Escuchar el evento para recibir los productos actualizados
 socketClient.on("productsUpdated", (productosActualizados) => {
+    console.log('Evento productosActualizados recibido en realtimeproducts.js')
     productos = productosActualizados;
-    console.log("productosActualizados en realtimeproducts.js", productosActualizados);
+    //console.log("productosActualizados en realtimeproducts.js", productosActualizados);
     renderProducts(productos);
 });
     
 // Agregar lógica para eliminar productos
 deleteButton.addEventListener("click", () => {
+    console.log('click en boton borrar en realtimeproducts.js')
     const selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
     const selectedProductIds = Array.from(selectedCheckboxes).map((checkbox) => {
         return checkbox.id.replace("checkbox_", "");
@@ -175,28 +126,22 @@ deleteButton.addEventListener("click", () => {
 });
 
 socketClient.on('productsDeleted', (deletedProductIds) => {
+    console.log('evento productsDeleted recibido en realtimeproducts.js');
     // Manejar productos eliminados con éxito
     console.log('Productos eliminados con éxito:', deletedProductIds);
     // Puedes realizar acciones en la interfaz de usuario si es necesario
 });
 
 socketClient.on('productsNotDeleted', (notDeletedProductIds) => {
+    console.log('evento productsNotDeleted recibido en realtimeproducts.js');
     // Manejar productos que no se pudieron eliminar
     console.error('Productos que no se pudieron eliminar:', notDeletedProductIds);
     // Puedes mostrar mensajes de error o realizar acciones adicionales si es necesario
 });
 
-
-// Escuchar el evento para recibir los productos iniciales
-socketClient.on("carritosIniciales", (carritosIniciales) => {
-    console.log('carritosIniciales en realtimeproducts.js', carritosIniciales);
-    renderCarts(carritosIniciales);
-});
-
-
-// Cuando se haga clic en "Crear Carrito", realiza las acciones que deseas
+//  "Crear Carrito"
 createCartButton.addEventListener("click", () => {
-    console.log("createCartButton en realtimeproducts");
+    console.log("Click en createCartButton en realtimeproducts");
 
     const selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
     const selectedProductIds = Array.from(selectedCheckboxes).map((checkbox) => {
@@ -235,10 +180,6 @@ createCartButton.addEventListener("click", () => {
 });
 
 
-socketClient.on("carritosActualizados", (carritosActualizados) => {
-    console.log('carritosActualizados en realtimeproducts.js', carritosActualizados);
-    // Actualiza la interfaz de usuario con los carritos actualizados
-    renderCarts(carritosActualizados);
-});
+
 
 

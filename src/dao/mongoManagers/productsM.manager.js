@@ -4,9 +4,11 @@ import { productModel } from './models/products.model.js';
 export class ProductsManagerMongoose{   
 
     async mongooseGetProducts(obj) {
-        console.log(obj);
-        const {limit, page, sort, query} = obj;
-        console.log('sort 1', sort);
+        console.log('productsM.manager.js metodo mongooseGetProducts');
+        console.log('se esta usando el mètodo: mongooseGetProducts')
+        //console.log(obj);
+        let {limit, page, sort, query} = obj;
+        //console.log('sort 1', sort);
         
         //AGGREGATION 
 
@@ -50,6 +52,8 @@ export class ProductsManagerMongoose{
 
 
         //PAGINATION
+        limit = limit ? limit : 10;
+        page= page? page:1;
         let sortBy;
         if (sort === 'asc') {
             console.log(`el valor de sort es asc y deberia ser {price: 1}`)
@@ -61,7 +65,7 @@ export class ProductsManagerMongoose{
             sortBy={ $sort: { price: -1 } } ;
         }
         console.log('sortBy', sortBy)
-        const result =await productModel.paginate({}, {limit, page, sortBy}) // si agrego  { limit,  sort, query } se rompe. Tiene por defecto limit = 10
+        const result =await productModel.paginate({}, {limit, page}) // limit funciona, page funciona, sortby no funciona. Query no fuunciona. Tiene por defecto limit = 10
         //console.log('result pm', result)
 
         // configurar el objeto de respuesta
@@ -69,12 +73,12 @@ export class ProductsManagerMongoose{
             status: "success",
             payload: result.totalDocs, 
             prevPage: result.prevPage,
-            prevLink: result.hasPrevPage ? `/api/products?page=${result.prevPage}` : null,
+            prevLink: result.hasPrevPage ? `http://localhost:8080/api/products?page=${result.prevPage}` : null,
             page: result.page,
             hasPrevPage: result.hasPrevPage,
             hasNextPage: result.hasNextPage,
             nextPage: result.nextPage,
-            nextLink: result.hasNextPage ? `/api/products?page=${result.nextPage}` : null,
+            nextLink: result.hasNextPage ? `http://localhost:8080/api/products?page=${result.nextPage}` : null,
         }
         //console.log('result.doc:', result.docs);
 
@@ -83,6 +87,8 @@ export class ProductsManagerMongoose{
     
         
     async mongooseGetProductById(pid){
+        console.log('productsM.manager.js metodo mongooseGetProductById');
+        console.log('se esta usando el mètodo: mongooseGetProductById')
         try {
             const product = await productModel.findById(pid);            
             
@@ -101,6 +107,8 @@ export class ProductsManagerMongoose{
     };    
     
     async mongooseAddProduct(obj){
+        console.log('productsM.manager.js metodo mongooseAddProduct');
+        console.log('se esta usando el mètodo: mongooseAddProduct')
         try {
             const newProduct= await productModel.create(obj);  // zoom  1:20hs ver video desde ahi          
             return newProduct;
@@ -110,7 +118,9 @@ export class ProductsManagerMongoose{
     };
     
     async mongooseUpdateProduct(pid, obj){
-        console.log("Antes de la actualización: ID del producto =", pid);
+        console.log('productsM.manager.js metodo mongooseUpdateProduct');
+        console.log('se esta usando el mètodo: mongooseUpdateProduct')
+        console.log("Antes de la actualización: ID del producto", pid);
         console.log("Datos de actualización =", obj);
 
         try {
@@ -130,6 +140,8 @@ export class ProductsManagerMongoose{
     };
         
     async mongooseDeleteProduct(pid){
+        console.log('productsM.manager.js metodo mongooseDeleteProduct');
+        console.log('se esta usando el mètodo: mongooseDeleteProduct')
         console.log('deleteProduct pid manager', pid);
         const product = await productModel.findByIdAndDelete(pid);
         console.log('deleteProduct respone manager', product);

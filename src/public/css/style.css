@@ -1,0 +1,87 @@
+/*menu*/
+
+#menu {    
+    background-color: rgb(96, 34, 138);    
+}
+#menuOptions {    
+    display: flex;
+    justify-content: space-evenly;
+    background-color: rgb(209, 161, 185);
+    list-style: none;
+    height: 35px;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+}
+#menuOptions.menuLi::before{
+    content: " | "
+
+} 
+.menuLi {
+    background-color: rgb(129, 186, 194);
+    height: 25px;
+    width: 65px;
+    max-width: 75px;
+    overflow: hidden;
+    margin: 2px;
+    text-align: center;
+
+}
+a {
+    background-color: rgb(217, 228, 156);
+}
+
+/*carritos.handlebars*/
+#carritos{
+    background-color: #ccc;
+
+}
+/*chat.handlebars*/
+
+/*home.handlebars*/
+
+/*products.handlebars*/
+#showProducts{
+    background-color: rgb(209, 161, 185);
+    
+    
+}
+#productCards{
+    background-color: rgb(129, 186, 194);    
+    display: flex;
+    flex-wrap: wrap;    
+    justify-content: space-evenly;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+.card.col-md-4.mb-4{
+    background-color: rgb(217, 228, 156);
+    border: 1px solid rgb(96, 34, 138);
+    width: 15%;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    padding: 15px;
+    margin:1%;
+}
+
+#pagination{
+    display: flex;
+    justify-content: space-evenly;
+}
+#prevPage{
+
+}
+#currentPage{
+
+}
+#nextPage{
+
+}
+/*realtimeproducts.handlebars*/

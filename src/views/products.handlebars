@@ -1,0 +1,34 @@
+<h3>Products.view</h3>
+
+<div id="menu">
+    <ul id="menuOptions">
+        <li class="menuLi"><a href="http://localhost:8080/" target="_blank" rel="noopener noreferrer">Chat</a></li>
+        <li class="menuLi"><a href="http://localhost:8080/products" target="_blank" rel="noopener noreferrer">Productos.view</a></li>
+        <li class="menuLi"><a href="http://localhost:8080/carts" target="_blank" rel="noopener noreferrer">Carritos.view</a></li>
+        <li class="menuLi">| PRUEBAS PRODUCTOS :</li>
+        <li class="menuLi"><a href="http://localhost:8080/api/products" target="_blank" rel="noopener noreferrer">Productos.JSON</a></li>
+        <li class="menuLi"><a href="http://localhost:8080/api/products?limit=5" target="_blank" rel="noopener noreferrer">?limit=5</a></li>
+        <li class="menuLi"><a href="http://localhost:8080/api/products?limit=5&page=2" target="_blank" rel="noopener noreferrer">?limit=5&page=2</a></li>
+        <li class="menuLi"><a href="http://localhost:8080/api/products?limit=5&page=2&sort=desc" target="_blank" rel="noopener noreferrer">?limit=5&page=2&sort=desc</a></li>
+        <li class="menuLi"><a href="http://localhost:8080/api/products?limit=5&page=2&sort=asc&query[status]=true&query[category]=Electrónica" target="_blank" rel="noopener noreferrer">?limit=5&page=2&sort=asc&query[status]=true&query[category]=Electrónica</a></li>
+        <li class="menuLi"><a href="http://localhost:8080/api/products/6532158bfe427043fdb1a320" target="_blank" rel="noopener noreferrer">products/6532158bfe427043fdb1a320</a></li>
+    </ul>
+</div>
+
+<div id="showProducts">
+    <div id="productCards">
+
+    </div>
+    <div id="pagination">
+        <button id="prevPage" onclick="pasarDePagina(-1)" value="">Página anterior</button>
+        <span id="currentPage">Página X</span>
+        <button id="nextPage" onclick="pasarDePagina(1)" value="">Página siguiente</button>
+    </div>
+
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/products.js"></script>

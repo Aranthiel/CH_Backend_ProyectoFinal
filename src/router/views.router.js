@@ -1,7 +1,10 @@
 import {Router} from "express";
 import { 
     getHomeProductsC,
-    getRealTimeProductsC
+    getRealTimeProductsC,
+    productCardRender,
+    getCartsC,
+    getCartByIdC
 } from '../controller/views.controller.js'
 
 
@@ -9,11 +12,21 @@ import {
 
 const viewsRouter = Router();
 
-//endpopint GET para obtener TODOS LOS PRODUCTOS
+//endpopint productos estaticos
 viewsRouter.get('/', getHomeProductsC); 
 
-//endpopint GET para obtener TODOS LOS PRODUCTOS
+//endpopint productos RT
 viewsRouter.get('/realtimeproducts',getRealTimeProductsC); 
+
+//endpopint productos RT
+viewsRouter.get(/^\/products/, productCardRender); 
+//endpoint CARRITOS
+viewsRouter.get('/carts', getCartsC); 
+
+//endpoint para un carrito especifico
+viewsRouter.get('/carts/:cid ', getCartByIdC); 
+
+
 
 export default viewsRouter
 
