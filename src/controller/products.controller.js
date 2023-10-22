@@ -3,21 +3,21 @@ import { productsManagerMongoose } from '../dao/mongoManagers/productsM.manager.
 
 //funcion intermedia entre router y manager metodo GET para obtener TODOS LOS PRODUCTOS
 async function getAllProductsC(req, res) {
-    const limit = req.query.limit ? req.query.limit : undefined; 
-    //limit = limit ? limit : undefined;
-    console.log(`Tipo de limit: ${typeof limit}, Valor: ${limit}`);
-
     try {
-        const products = await productsManagerMongoose.mongooseGetProducts(limit);
-        if (!products.length) {
+        const response = await productsManagerMongoose.mongooseGetProducts(req.query);
+        //console.log('response en GAP', response)
+        if (response.mongoResults.status !== "success") {
             res.status(404).json({ success: false, message: 'No se encontraron productos'});
-            /* 
-            const error = new Error('No se encontraron productos');
-            error.statusCode = 404;
-            throw error; */
         } else {
-            res.status(200).json({success: true, message: 'Productos encontrados ', products}); 
+            //res.json({response})
+            const info = response.mongoResults;
+            const products=response.results;
+            //console.log('products', products);
+            res.status(200).json({success: true, message: `Productos encontrados ${response.mongoResults.payload}`, info, products}); 
             return products;
+
+            //res.status(200).json({success: true, message: `Productos encontrados ${response.payload}` , products}); 
+            //return products;
         }
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });

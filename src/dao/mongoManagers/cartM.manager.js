@@ -4,7 +4,7 @@ class CartManagerMongoose{
     
     async mongooseGetAllCarts(limit){
         limit ? limit  : undefined;
-        const allCarts = await cartModel.find().limit(limit);
+        const allCarts = await cartModel.find().limit(limit).populate(`Productos`);
         console.log('allCarts', allCarts);
         return allCarts;
     }
@@ -16,7 +16,7 @@ class CartManagerMongoose{
     }
 
     async mongooseGetCartById(cid){
-        const response = await cartModel.findById(cid);
+        const response = await cartModel.findById(cid).populate(`Productos`);
         return response;
     };
 

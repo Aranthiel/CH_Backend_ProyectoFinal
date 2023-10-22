@@ -1,19 +1,20 @@
 GET
 http://localhost:8080/api/products --> FUNCIONA OK
-http://localhost:8080/api/products?limit=7 --> FUNCIONA OK
+http://localhost:8080/api/products?limit=5 --> FUNCIONA OK
+http://localhost:8080/api/products?limit=5&page=2 --> FUNCIONA OK
+http://localhost:8080/api/products?limit=5&page=2&sort=desc No funciona
+http://localhost:8080/api/products?limit=5&page=2&sort=asc&query[status]=true&query[category]=Electrónica No funciona
 http://localhost:8080/api/products/6532158bfe427043fdb1a320 --> FUNCIONA OK
 
 
 POST
 http://localhost:8080/api/products --> FUNCIONA OK
 {
-  "title": "Nuevo Producto 21/09",
-  "description": "Descripción del nuevo producto",
+  "title": "Nuevo Producto 22/10",
   "price": 99.99,
   "status": true,
   "category": "Electrónica",
-  "thumbnail": "imagen.jpg",
-  "code": "ABC123",
+  "code": "codigo2210",
   "stock": 10
 }
 
