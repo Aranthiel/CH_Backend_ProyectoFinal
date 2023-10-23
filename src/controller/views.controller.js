@@ -67,6 +67,22 @@ async function productCardRender (req, res){
 
 async function getCartsC (req, res){
     console.log('views.controller.js metodo getCartsC')
+    const limit = req.query.limit ? req.query.limit : null;
+    
+    try {
+        const allCartsVC = await cartManagerMongoose.mongooseGetAllCarts(+limit);
+        console.log('allCartsVC.length', allCartsVC.length);        
+
+        if (!allCartsVC.length) {
+            res.status(404).json({ success: false, message: 'No se encontraron carritos'});
+        } else {
+            res.status(200).render("carritos", {allCartsVC});
+        }
+        
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+        
+    }
 
 }
 

@@ -208,17 +208,17 @@ socketServer.on("connection", async (socket) =>{
             throw new Error(`Error al obtener carritos: ${response.statusText}`);
         }
         const carritosIniciales = await response.json();
-        //console.log("carritosIniciales en socket server", carritosIniciales.allCarts);
+        //console.log("carritosIniciales en socket server", carritosIniciales);
 
         // Emite los carritos iniciales al cliente
         if (carritosIniciales.length === 0) {
             socket.emit("carritosIniciales", []);
-            console.log('carritosIniciales emitido desde socketserver');
+            console.log('carritosIniciales emitido desde socketserver carritosIniciales.length === 0');
             //console.log('carritos iniciales en socketserver', carritosIniciales);
     
         } else {
-            socket.emit("carritosIniciales", carritosIniciales.allCarts);
-            console.log('carritosIniciales emitido desde socketserver');
+            socket.emit("carritosIniciales", carritosIniciales.allCartsCC);
+            console.log('carritosIniciales emitido desde socketserver', carritosIniciales.allCartsCC);
             //console.log('carritos iniciales en socketserver', carritosIniciales);
     
         }        

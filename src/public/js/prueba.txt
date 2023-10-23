@@ -1,0 +1,42 @@
+[nodemon] starting `node src/server.js`
+Ejecutando initializeSocket de socketServer.js
+Pruebas server express. Servidor escuchando en http://localhost:8080
+se ha conectado el cliente G3p59SAnI21J9H60AAAB
+ productosIniciales apiUrl http://localhost:8080/api/products
+products.controller metodo getAllProductsC:
+productsM.manager.js metodo mongooseGetProducts
+se esta usando el mètodo: mongooseGetProducts
+sortBy undefined
+se ha conectado el cliente naE0PTJ2Ecm-LXOpAAAD
+ productosIniciales apiUrl http://localhost:8080/api/products
+products.controller metodo getAllProductsC:
+productsM.manager.js metodo mongooseGetProducts
+se esta usando el mètodo: mongooseGetProducts
+sortBy undefined
+Conectado a la base de datos
+Productos iniciales emitido desde socketserver
+products.controller metodo getAllProductsC:
+productsM.manager.js metodo mongooseGetProducts
+se esta usando el mètodo: mongooseGetProducts
+sortBy undefined
+Productos iniciales emitido desde socketserver
+products.controller metodo getAllProductsC:
+productsM.manager.js metodo mongooseGetProducts
+se esta usando el mètodo: mongooseGetProducts
+sortBy undefined
+Productos iniciales RT emitido desde socketserver
+http://localhost:8080/api/carts
+Productos iniciales RT emitido desde socketserver
+http://localhost:8080/api/carts
+cart.controller.js metodo getCartsC
+cartM.Manager.js metodo mongooseGetAllCarts
+cart.controller.js metodo getCartsC
+cartM.Manager.js metodo mongooseGetAllCarts
+cartM.Manager.js metodo mongooseGetAllCarts allCartsCM  object
+ cart.controller.js metodo getCartsC allCartsCC object
+allCartsCC.length 9
+cartM.Manager.js metodo mongooseGetAllCarts allCartsCM  object
+ cart.controller.js metodo getCartsC allCartsCC object
+allCartsCC.length 9
+carritosIniciales emitido desde socketserver
+carritosIniciales emitido desde socketserver

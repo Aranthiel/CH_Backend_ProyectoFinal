@@ -23,16 +23,17 @@ async function getCartsC(req, res){
     const limit = req.query.limit ? req.query.limit : undefined;  
     //mongooseGetAllCarts
     try {
-        const allCarts = await cartManagerMongoose.mongooseGetAllCarts(limit);
-        //console.log("controller allCarts" ,allCarts);
-        if (!allCarts.length) {
+        const allCartsCC = await cartManagerMongoose.mongooseGetAllCarts(limit);
+        console.log(" cart.controller.js metodo getCartsC allCartsCC", typeof(allCartsCC));
+        console.log('allCartsCC.length', allCartsCC.length);
+        if (!allCartsCC.length) {
             res.status(404).json({ success: false, message: 'No se encontraron carritos'});            
             /* const error = new Error('No se encontraron carritos');
             error.statusCode = 404;
             throw error; */
         } else{
-            res.status(200).json({success: true, message: 'Carritos encontrados ', allCarts});            
-            return allCarts;
+            res.status(200).json({success: true, message: 'Carritos encontrados ', allCartsCC});            
+            return allCartsCC;
         };
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });

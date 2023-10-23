@@ -4,11 +4,11 @@ class CartManagerMongoose{
     
     //GET
     async mongooseGetAllCarts(limit){
-        console.log('cartM.Manager.hjs metodo mongooseGetAllCarts')
+        console.log('cartM.Manager.js metodo mongooseGetAllCarts')
         limit ? limit  : undefined;
-        const allCarts = await cartModel.find().limit(limit).populate();
-        //console.log('allCarts', allCarts);
-        return allCarts;
+        const allCartsCM = await cartModel.find().limit(limit).populate();
+        console.log('cartM.Manager.js metodo mongooseGetAllCarts allCartsCM ', typeof(allCartsCM));
+        return allCartsCM;
     }
 
     //obj={user:"Fulanito"}
