@@ -2,7 +2,7 @@ console.log("It's alive!");
 
 const socketClient = io();
 const form = document.getElementById("productForm");
-const divShowProducts = document.getElementById("rtpshowProducts");
+const divShowProducts = document.getElementById("showProducts");
 
 const title = document.createElement("h2");
 title.textContent = "Productos";
@@ -11,19 +11,18 @@ const deleteButton = document.createElement("button");
 deleteButton.textContent = "Eliminar Productos";
 
 const createCartButton = document.createElement("button");
-createCartButton.textContent = "Crear carrito";
+createCartButton.textContent = "Crear Carrito";
 
-const divCarrito = document.getElementById("rtpcarritos");
+const divCarrito = document.getElementById("carritos");
 
 const deleteCartButton  = document.createElement("button");
 deleteCartButton.textContent = "Eliminar Caritos";
 
 // Inicializar productos como un arreglo vacío
 let productos = [];
-//console.log('productos', productos);
+console.log('productos', productos);
 
 form.addEventListener("submit", (event) => {
-    coonsole.log('click en boton enviar de realtimeproducts.js')
     event.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
     console.log("form submit")
 
@@ -58,7 +57,6 @@ form.addEventListener("submit", (event) => {
 
 //renderizar los productos en el DOM
 function renderProducts(productos) {
-    console.log('realtimeproducts.js ejecutando renderProducts')
     const ul = document.createElement("ul");
     
     productos.forEach((producto) => {
@@ -84,67 +82,6 @@ function renderProducts(productos) {
     divShowProducts.appendChild(createCartButton);
 }
 
-// Escuchar el evento para recibir los productos iniciales
-socketClient.on("productosInicialesRT", (productosIniciales) => {
-    console.log('Evento productosInicialesRT recibido en realtimeproducts.js')
-    //console.log('productosIniciales en realtimeproducts.js', productosIniciales);
-    productos = productosIniciales;
-    renderProducts(productos);
-});
-
-// Escuchar el evento para recibir los productos actualizados
-socketClient.on("productsUpdated", (productosActualizados) => {
-    console.log('Evento productosActualizados recibido en realtimeproducts.js')
-    productos = productosActualizados;
-    //console.log("productosActualizados en realtimeproducts.js", productosActualizados);
-    renderProducts(productos);
-});
-    
-// Agregar lógica para eliminar productos
-deleteButton.addEventListener("click", () => {
-    console.log('click en boton borrar en realtimeproducts.js')
-    const selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-    const selectedProductIds = Array.from(selectedCheckboxes).map((checkbox) => {
-        return checkbox.id.replace("checkbox_", "");
-    });
-
-    const confirmation = Swal.fire({
-        title: '¿Quieres borrar esto?',
-        text: `Ha seleccionado ${selectedProductIds.length} productos para eliminar`, 
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Eliminar'
-    });
-
-    confirmation.then((result) => {
-        if (result.isConfirmed) {
-            // Emitir el evento "borrar" con los IDs de los productos seleccionados
-            console.log('Enviando evento "borrar" con los siguientes datos:', selectedProductIds);
-            socketClient.emit("borrar", selectedProductIds);
-
-            // Desmarcar las checkbox
-            selectedCheckboxes.forEach((checkbox) => {
-                checkbox.checked = false;
-            });
-        }
-    });
-});
-
-socketClient.on('productsDeleted', (deletedProductIds) => {
-    console.log('evento productsDeleted recibido en realtimeproducts.js');
-    // Manejar productos eliminados con éxito
-    console.log('Productos eliminados con éxito:', deletedProductIds);
-    // Puedes realizar acciones en la interfaz de usuario si es necesario
-});
-
-socketClient.on('productsNotDeleted', (notDeletedProductIds) => {
-    console.log('evento productsNotDeleted recibido en realtimeproducts.js');
-    // Manejar productos que no se pudieron eliminar
-    console.error('Productos que no se pudieron eliminar:', notDeletedProductIds);
-    // Puedes mostrar mensajes de error o realizar acciones adicionales si es necesario
-});
 
 // Renderizar los carritos en el DOM
 function renderCarts(carritos) {
@@ -153,7 +90,6 @@ function renderCarts(carritos) {
 
     // Itera a través de los carritos
     carritos.forEach((carrito) => {
-        console.log(carrito);
         // Crear un elemento de lista (li) para cada carrito
         const li = document.createElement("li");
         li.id = `cart_${carrito._id}`;
@@ -188,19 +124,80 @@ function renderCarts(carritos) {
     });
 
     // Agregar el botón "Eliminar Productos" al final
-    divCarrito.appendChild(deleteCartButton);
+    divCarrito.appendChild(deleteButton);
 }
+
+
+
+
+// Escuchar el evento para recibir los productos iniciales
+socketClient.on("productosIniciales", (productosIniciales) => {
+    console.log('productosIniciales en realtimeproducts.js', productosIniciales);
+    productos = productosIniciales;
+    renderProducts(productos);
+});
+
+// Escuchar el evento para recibir los productos actualizados
+socketClient.on("productsUpdated", (productosActualizados) => {
+    productos = productosActualizados;
+    console.log("productosActualizados en realtimeproducts.js", productosActualizados);
+    renderProducts(productos);
+});
+    
+// Agregar lógica para eliminar productos
+deleteButton.addEventListener("click", () => {
+    const selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    const selectedProductIds = Array.from(selectedCheckboxes).map((checkbox) => {
+        return checkbox.id.replace("checkbox_", "");
+    });
+
+    const confirmation = Swal.fire({
+        title: '¿Quieres borrar esto?',
+        text: `Ha seleccionado ${selectedProductIds.length} productos para eliminar`, 
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Eliminar'
+    });
+
+    confirmation.then((result) => {
+        if (result.isConfirmed) {
+            // Emitir el evento "borrar" con los IDs de los productos seleccionados
+            console.log('Enviando evento "borrar" con los siguientes datos:', selectedProductIds);
+            socketClient.emit("borrar", selectedProductIds);
+
+            // Desmarcar las checkbox
+            selectedCheckboxes.forEach((checkbox) => {
+                checkbox.checked = false;
+            });
+        }
+    });
+});
+
+socketClient.on('productsDeleted', (deletedProductIds) => {
+    // Manejar productos eliminados con éxito
+    console.log('Productos eliminados con éxito:', deletedProductIds);
+    // Puedes realizar acciones en la interfaz de usuario si es necesario
+});
+
+socketClient.on('productsNotDeleted', (notDeletedProductIds) => {
+    // Manejar productos que no se pudieron eliminar
+    console.error('Productos que no se pudieron eliminar:', notDeletedProductIds);
+    // Puedes mostrar mensajes de error o realizar acciones adicionales si es necesario
+});
+
 
 // Escuchar el evento para recibir los productos iniciales
 socketClient.on("carritosIniciales", (carritosIniciales) => {
     console.log('carritosIniciales en realtimeproducts.js', carritosIniciales);
-    carritos = carritosIniciales;
+    productos = carritosIniciales;
     renderCarts(carritos);
 });
 
-//  "Crear Carrito"
+// Cuando se haga clic en "Crear Carrito", realiza las acciones que deseas
 createCartButton.addEventListener("click", () => {
-    console.log("Click en createCartButton en realtimeproducts");
+    console.log("createCartButton en realtimeproducts");
 
     const selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
     const selectedProductIds = Array.from(selectedCheckboxes).map((checkbox) => {
@@ -238,9 +235,12 @@ createCartButton.addEventListener("click", () => {
     });
 });
 
+
+
+
 // Escuchar el evento para recibir los carritos actualizados
 socketClient.on("cartsUpdated", (carritosActualizados) => {
-    carritos = carritosActualizados;
+    productos = carritosActualizados;
     console.log("carritosActualizados en realtimeproducts.js", carritosActualizados);
     renderCarts(carritos);
 });

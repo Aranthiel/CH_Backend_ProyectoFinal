@@ -75,13 +75,33 @@ a {
     display: flex;
     justify-content: space-evenly;
 }
-#prevPage{
+/* #prevPage{}
+#currentPage{}
+#nextPage{} */
 
-}
-#currentPage{
 
-}
-#nextPage{
-
-}
 /*realtimeproducts.handlebars*/
+#rtpcontainer{
+    border:1px solid red;
+    display: flex;
+}
+#rtpproductos{
+    border:4px solid rgb(40, 165, 29);
+    width: 50%;
+}
+#productForm{
+    border:1px solid red;
+}
+#rtpshowProducts{
+    border:1px solid red;
+}
+#rtpcarritos{
+    border:4px solid rgb(196, 87, 14);
+    width: 50%;
+}
+#rtpRenderCarritos{
+    border:1px solid red;
+}
+#rtpButtonsCarrito{
+    border:1px solid red;
+}

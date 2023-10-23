@@ -1,22 +1,15 @@
+
 console.log("It's alive!");
 
 const socketClient = io();
 const form = document.getElementById("productForm");
-const divShowProducts = document.getElementById("rtpshowProducts");
+const divShowProducts = document.getElementById("showProducts");
 
 const title = document.createElement("h2");
 title.textContent = "Productos";
 
 const deleteButton = document.createElement("button");
 deleteButton.textContent = "Eliminar Productos";
-
-const createCartButton = document.createElement("button");
-createCartButton.textContent = "Crear carrito";
-
-const divCarrito = document.getElementById("rtpcarritos");
-
-const deleteCartButton  = document.createElement("button");
-deleteCartButton.textContent = "Eliminar Caritos";
 
 // Inicializar productos como un arreglo vacío
 let productos = [];
@@ -146,58 +139,6 @@ socketClient.on('productsNotDeleted', (notDeletedProductIds) => {
     // Puedes mostrar mensajes de error o realizar acciones adicionales si es necesario
 });
 
-// Renderizar los carritos en el DOM
-function renderCarts(carritos) {
-    // Limpiar el contenido anterior del div "divCarrito"
-    divCarrito.innerHTML = "";
-
-    // Itera a través de los carritos
-    carritos.forEach((carrito) => {
-        console.log(carrito);
-        // Crear un elemento de lista (li) para cada carrito
-        const li = document.createElement("li");
-        li.id = `cart_${carrito._id}`;
-
-        // Crear una casilla de verificación (checkbox)
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.id = `checkbox_${carrito._id}`;
-        li.appendChild(checkbox);
-
-        // Crear un elemento de span para mostrar el ID del carrito
-        const cartInfo = document.createElement("span");
-        cartInfo.textContent = `Carrito: ${carrito._id} - Productos: `;
-        li.appendChild(cartInfo);
-
-        // Crear una lista desordenada (ul) para los productos del carrito
-        const ul = document.createElement("ul");
-
-        // Itera a través de los productos del carrito
-        carrito.products.forEach((producto) => {
-            // Crear elementos de lista (li) para cada producto
-            const productLi = document.createElement("li");
-            productLi.textContent = `Producto ${producto.productoId} - Cantidad: ${producto.quantity}`;
-            ul.appendChild(productLi);
-        });
-
-        // Agregar la lista de productos al elemento li
-        li.appendChild(ul);
-
-        // Agregar el elemento li al div "divCarrito"
-        divCarrito.appendChild(li);
-    });
-
-    // Agregar el botón "Eliminar Productos" al final
-    divCarrito.appendChild(deleteCartButton);
-}
-
-// Escuchar el evento para recibir los productos iniciales
-socketClient.on("carritosIniciales", (carritosIniciales) => {
-    console.log('carritosIniciales en realtimeproducts.js', carritosIniciales);
-    carritos = carritosIniciales;
-    renderCarts(carritos);
-});
-
 //  "Crear Carrito"
 createCartButton.addEventListener("click", () => {
     console.log("Click en createCartButton en realtimeproducts");
@@ -238,9 +179,7 @@ createCartButton.addEventListener("click", () => {
     });
 });
 
-// Escuchar el evento para recibir los carritos actualizados
-socketClient.on("cartsUpdated", (carritosActualizados) => {
-    carritos = carritosActualizados;
-    console.log("carritosActualizados en realtimeproducts.js", carritosActualizados);
-    renderCarts(carritos);
-});
+
+
+
+

@@ -1,12 +1,13 @@
-console.log("carritos.js It's alive!");
+console.log("carrito.js It's alive!");
+console.log("Ejecutando carrito.js");
 
 const socketClient = io();
 const carritosContainer = document.getElementById("carritos");
-carritosContainer.innerHTML = "carritos.js funciona";
+carritosContainer.innerHTML = "carrito.js funciona";
 
 // Renderizar los carritos en el DOM
 function renderCarts(carritos) {
-    console.log('carritos.js: se esta ejecutando renderCarts')
+    console.log('carrito.js: se está ejecutando renderCarts');
     // Obtén el contenedor de carritos
     const carritosContainer = document.getElementById("carritos");
 
@@ -38,117 +39,29 @@ function renderCarts(carritos) {
 
         // Itera a través de los productos en el carrito y crea elementos para cada uno
         carrito.productos.forEach((producto) => {
-            const productoElement = document.createElement('div');
-            productoElement.classList.add('producto');
-
-            // Agregar el ID del producto (_id) como el ID del elemento
-            productoElement.id = `producto_${producto._id}`;
-
-            // Agregar el nombre del producto
-            const nombreProducto = document.createElement('span');
-            nombreProducto.textContent = `Nombre: ${producto.nombre}`;
-            // Agregar el atributo "data-id" con el valor del _id
-            nombreProducto.setAttribute('data-id', producto._id);
-            productoElement.appendChild(nombreProducto);
-
-            // Agregar el precio del producto
-            const precioProducto = document.createElement('span');
-            precioProducto.textContent = `Precio: $${producto.precio}`;
-            // Agregar el atributo "data-id" con el valor del _id
-            precioProducto.setAttribute('data-id', producto._id);
-            productoElement.appendChild(precioProducto);
-
-            // Agregar un campo de entrada de tipo número
-            const cantidadInput = document.createElement('input');
-            cantidadInput.type = 'number';
-            cantidadInput.value = producto.quantity; // Establece el valor inicial
-            cantidadInput.setAttribute('data-quantity', producto.quantity); // Almacena la cantidad original
-            cantidadInput.addEventListener('input', (event) => {
-                // Verifica si la cantidad ha cambiado
-                const newQuantity = parseInt(event.target.value);
-                const originalQuantity = parseInt(
-                    event.target.getAttribute('data-quantity'),
-                    10
-                );
-
-                // Habilita o deshabilita el botón "Actualizar" según si la cantidad ha cambiado
-                if (newQuantity !== originalQuantity) {
-                    actualizarBoton.removeAttribute('disabled');
-                } else {
-                    actualizarBoton.setAttribute('disabled', true);
-                }
-            });
-            productoElement.appendChild(cantidadInput);
-
-            // Agregar un botón "Actualizar"
-            const actualizarBoton = document.createElement('button');
-            actualizarBoton.textContent = 'Actualizar';
-            // Agregar el _id del producto como el valor del botón
-            actualizarBoton.value = producto._id;
-            actualizarBoton.setAttribute('disabled', true);
-            actualizarBoton.addEventListener('click', () => {
-                // Obtener el ID del producto y la cantidad actualizada del botón y del campo de entrada
-                const productoId = actualizarBoton.value;
-                const cantidadActualizada = parseInt(cantidadInput.value);
-
-                // Emitir el evento "actualizarCantidadProductoEnCarrito" con el ID del producto y la cantidad actualizada
-                socketClient.emit('actualizarCantidadProductoEnCarrito', {
-                    productoId,
-                    cantidad: cantidadActualizada
-                });
-            });
-            productoElement.appendChild(actualizarBoton);
-
-
-
-            // Agregar un botón "Eliminar"
-            const eliminarBoton = document.createElement('button');
-            eliminarBoton.textContent = 'Eliminar';
-            // Agregar el _id del producto como el valor del botón
-            eliminarBoton.value = producto._id;
-            eliminarBoton.addEventListener('click', () => {
-                // Obtener el ID del producto del botón
-                const productoId = actualizarBoton.value;
-                
-                // Emitir el evento "borrarProductoDeCarrito" con el ID del producto
-                socketClient.emit('borrarProductoDeCarrito', productoId);
-                
-            });
-            productoElement.appendChild(eliminarBoton);
-
-            // Agregar el precio total (precio * cantidad)
-            const precioTotal = document.createElement('span');
-            precioTotal.textContent = `Total: $${
-                producto.price * producto.quantity
-            }`;
-            // Agregar el atributo "data-id" con el valor del _id
-            precioTotal.setAttribute('data-id', producto._id);
-            productoElement.appendChild(precioTotal);
-
-            // Agrega el elemento del producto al contenedor de productos
-            productosContainer.appendChild(productoElement);
+            // ... (resto del código)
         });
 
-
-
-        // Agrega el contenedor de productos al carrito
-        carritoCard.querySelector(".card-footer").appendChild(productosContainer);
-
-        // Agrega la card de carrito al contenedor principal
-        carritosContainer.appendChild(carritoCard);
+        // Agrega el elemento del producto al contenedor de productos
+        productosContainer.appendChild(productoElement);
     });
+
+    // Agrega la card de carrito al contenedor principal
+    carritosContainer.appendChild(carritoCard);
 }
+
+// Emitir el evento "vistaActiva" cuando el carrito está activo
+socketClient.emit("vistaActiva", "cart");
+console.log('Evento "vistaActiva" enviado desde carrito.js');
 
 // Escuchar el evento para recibir los carritos iniciales
 socketClient.on("carritosIniciales", (carritosIniciales) => {
-    console.log('evento carritosIniciales recibido en carritos.js');
-    console.log('carritosIniciales recibido en carritos.js', carritosIniciales);
+    console.log('Evento "carritosIniciales" recibido en carrito.js');
     renderCarts(carritosIniciales);
 });
 
 socketClient.on("carritosActualizados", (carritosActualizados) => {
-    console.log('evento carritosActualizados recibido en carritos.js');
-    //console.log('carritosActualizados recibido en carritos.js', carritosActualizados);
+    console.log('Evento "carritosActualizados" recibido en carrito.js');
     // Actualiza la interfaz de usuario con los carritos actualizados
     renderCarts(carritosActualizados);
 });

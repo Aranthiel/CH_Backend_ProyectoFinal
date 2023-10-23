@@ -219,7 +219,7 @@ socketServer.on("connection", async (socket) =>{
         } else {
             socket.emit("carritosIniciales", carritosIniciales.allCartsCC);
             console.log('carritosIniciales emitido desde socketserver', carritosIniciales.allCartsCC);
-            //console.log('carritos iniciales en socketserver', carritosIniciales);
+            console.log('carritos iniciales en socketserver', carritosIniciales);
     
         }        
         } catch (error) {
@@ -240,7 +240,7 @@ socketServer.on("connection", async (socket) =>{
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(requestBody), // Debes usar JSON.stringify aquí
+                body: JSON.stringify(requestBody), // Debes usar JSON.stringify aq
             });
             //console.log('addCartC response en socketserver', response);
     
@@ -275,6 +275,3 @@ socketServer.on("connection", async (socket) =>{
     })
 });
 };
-
-
-
